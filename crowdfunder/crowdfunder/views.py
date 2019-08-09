@@ -9,7 +9,9 @@ def root(request):
     return HttpResponseRedirect("/home")
 
 def home_page(request):
-    pass
+    projects = Project.objects.all
+    context = {'projects': projects }
+    return render(request, 'home.html', contenxt)
 
 def project_details(request, id):
     project = Project.objects.get(pk=id)
