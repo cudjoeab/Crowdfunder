@@ -1,12 +1,6 @@
 from django.forms import ModelForm
-from crowdfunder.models import Profile, Project, Comment, Reward, Donation
+from crowdfunder.models import Project, Comment, Reward, Donation
 from django.forms import CharField, PasswordInput, Form
-
-class ProfileForm(ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['name', 'first_name', 'last_name']
-
 
 class ProjectForm(ModelForm):
     class Meta:
