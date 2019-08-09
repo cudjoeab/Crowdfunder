@@ -84,4 +84,4 @@ def create_donate(request, project_id):  # User creating a new donation.
     else:  # Else sends user back to existing donation form.
         return render(request, "edit_product_form.html", {
             "product": product, "form": form
-        })
+        }) 
