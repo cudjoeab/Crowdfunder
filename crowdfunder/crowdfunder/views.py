@@ -83,12 +83,13 @@ def new_donate(request):  # Renders a form for user donations.
 
 @login_required
 def create_donate(request, project_id):  # User creating a new donation.
+    project_id = request.POST['project']
+    project = Project.objects.get(id=project_id)
     form = DonateForm(request.POST)
-
     if form.is_valid():
         form.save()
-        return redirect(reverse("show_all"))
+        return redirect(reverse('project_details.html', {'project': project}))
     else:  # Else sends user back to existing donation form.
-        return render(request, "edit_product_form.html", {
-            "product": product, "form": form
+        return render(request, "donate_form.html", {
+            "project": project, "form": form
         }) 
