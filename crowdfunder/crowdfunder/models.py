@@ -9,13 +9,13 @@ from django.core.validators import (
 
 
 class Profile(models.Model):
-    name = models.CharField(max_length=300)
-    first_name = models.CharField(max_length=300)
-    last_name = models.CharField(max_length=300)
+    username = models.CharField(max_length=300)
+    first_name = models.CharField(max_length=300, blank=True)
+    last_name = models.CharField(max_length=300, blank=True)
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE )
 
     def __str__(self):
-        return f'{self.name} - {self.first_name} {self.last_name}'
+        return f'{self.username} - {self.first_name} {self.last_name}'
 
 
 class Project(models.Model):
@@ -23,7 +23,9 @@ class Project(models.Model):
     creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name = 'project')
     start_date = models.DateField()
     end_date = models.DateField()
-    description = models.TextField()
+    description = models.TextField(
+        validators=[MinLengthValidator(10), MaxLengthValidator(500)]
+    )
 
     def __str__(self):
         return f'{self.title} by {self.creator}'
@@ -50,7 +52,7 @@ class Reward(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name = 'rewards_project')
 
     def __str__(self):
-        return f"{self.description} - Level: {self.profile} - Project: {self.reward}"
+        return f"{self.description} - Level: {self.level} - Project: {self.project}"
 
 
 class Donation(models.Model):

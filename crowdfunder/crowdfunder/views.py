@@ -37,8 +37,19 @@ def create_project(request):
         return render(request, "project_form.html", context)
 
     
-def new_donate(request):  # Generates a form for user donations.
-    pass
+def new_donate(request):  # Renders a form for user donations.
+    form = DonateForm()
+    return render(request, "product_form.html", {
+        "form": form
+    })
 
-def create_donate(request):  # Validates user donation and saves to database.
-    pass
+def create_donate(request, project_id):  # User creating a new donation.
+    user = User.objects.get(pk=user_id)
+    form = DonateForm(request.POST, instance=product)
+    if form.is_valid():
+        form.save()
+        return redirect(reverse("show_all"))
+    else:  # Else sends user back to existing donation form.
+        return render(request, "edit_product_form.html", {
+            "product": product, "form": form
+        })
