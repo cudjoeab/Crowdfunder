@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ project.title project_id=pk.id }} </h1>
+<h2> Make a donation </h2>
+<form action="{% url 'create_donate' %}" method= 'POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Make a Donation">
+</form>
+
+{% endblock %}
