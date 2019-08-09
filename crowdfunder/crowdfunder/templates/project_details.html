@@ -1,9 +1,9 @@
-{% extends 'base.html%}
+{% extends 'base.html' %}
 
-{% block_content %}
+{% block content %}
 
 <section>
-    <h1>{{ project.title project_id=pk.id }} </h1>
+    <h1>{{ project.title }} </h1>
     <h3>creator: {{ project.creator }} <br> </h3>
     <h3>timeline: {{ project.start_date }} - {{ project.end_date }} <br></h3>
     <p> description: {{ project.description }}</p>

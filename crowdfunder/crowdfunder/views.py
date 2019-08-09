@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from crowdfunder.models import *
 from crowdfunder.forms import *
+import pdb
 
 def root(request):
     return HttpResponseRedirect("/home")
@@ -59,16 +60,19 @@ def signup_view (request):
 def new_project(request):
     form = ProjectForm()
     context = {"form": form}
-    return render(request, "project_form.html", context)
+    return render(request, "new_project_form.html", context)
 
+@login_required
 def create_project(request):
     form = ProjectForm(request.POST)
     if form.is_valid():
-        form.save()
-        return redirect(reverse("homepage"))
+        new_project = form.save(commit=False)
+        new_project.creator = request.user
+        new_project.save()
+        return redirect(reverse("home_page"))
     else:  
         context = {"form": form}
-        return render(request, "project_form.html", context)
+        return render(request, "new_project_form.html", context)
 
 @login_required
 def new_donate(request):  # Renders a form for user donations.
