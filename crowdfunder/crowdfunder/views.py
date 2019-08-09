@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from crowdfunder.models import *
+from crowdfunder.models import * 
+from django.forms import ModelForm
 
 def root(request):
     return HttpResponseRedirect("/home")
