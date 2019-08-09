@@ -1,0 +1,15 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+{% for project in projects %}
+<section class="projects_gallery">
+    <ul>
+        <li>{{ project.title }}</li>
+        <li>{{ project.creator }}</li>
+    </ul>
+</section>
+
+{%  endfor %}
+
+{% endblock%}

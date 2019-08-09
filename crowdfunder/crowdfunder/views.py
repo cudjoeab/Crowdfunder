@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -10,8 +11,11 @@ def root(request):
 def home_page(request):
     pass
 
-def project_details(request):
-    pass
+def project_details(request, id):
+    project = Project.objects.get(pk=id)
+    return render(request, "project_details.html", {
+    'project': project
+    })
 
 def login_view(request):
     if request.method == 'POST':
@@ -55,7 +59,7 @@ def new_project(request):
     return render(request, "project_form.html", context)
 
 def create_project(request):
-    form = ProjecttForm(request.POST)
+    form = ProjectForm(request.POST)
     if form.is_valid():
         form.save()
         return redirect(reverse("homepage"))
@@ -63,9 +67,21 @@ def create_project(request):
         context = {"form": form}
         return render(request, "project_form.html", context)
 
-    
-def new_donate(request):  # Generates a form for user donations.
-    pass
+@login_required
+def new_donate(request):  # Renders a form for user donations.
+    form = DonateForm()
+    return render(request, "donate_form.html", {
+        "form": form
+    })
 
-def create_donate(request):  # Validates user donation and saves to database.
-    pass
+@login_required
+def create_donate(request, project_id):  # User creating a new donation.
+    form = DonateForm(request.POST)
+
+    if form.is_valid():
+        form.save()
+        return redirect(reverse("show_all"))
+    else:  # Else sends user back to existing donation form.
+        return render(request, "edit_product_form.html", {
+            "product": product, "form": form
+        })
