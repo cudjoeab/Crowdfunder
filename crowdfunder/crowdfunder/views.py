@@ -11,7 +11,7 @@ def root(request):
 def home_page(request):
     projects = Project.objects.all
     context = {'projects': projects }
-    return render(request, 'home.html', contenxt)
+    return render(request, 'home.html', context)
 
 def project_details(request, id):
     project = Project.objects.get(pk=id)

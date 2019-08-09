@@ -20,7 +20,7 @@ import crowdfunder.views as views
 urlpatterns = [
     #base STANLEY
     path('admin/', admin.site.urls),
-    # path('', root), 
+    path('', views.root), 
     path('home/', views.home_page, name="home_page"), 
     # registration SHAHEER
     path('login/', views.login_view, name="login"), 
