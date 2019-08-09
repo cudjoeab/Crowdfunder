@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>{{ project.title project_id=pk.id }} </h1>
+<h1>{{ project.title }} </h1>
 <h2> Make a donation </h2>
 <form action="{% url 'create_donate' %}" method= 'POST'>
     {% csrf_token %}
