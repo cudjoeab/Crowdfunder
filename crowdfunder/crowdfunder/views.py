@@ -10,8 +10,11 @@ def root(request):
 def home_page(request):
     pass
 
-def project_details(request):
-    pass
+def project_details(request, id):
+    project = Project.objects.get(pk=id)
+    return render(request, "project_details.html", {
+    'project': project
+    })
 
 def login_view(request):
     pass
@@ -28,7 +31,7 @@ def new_project(request):
     return render(request, "project_form.html", context)
 
 def create_project(request):
-    form = ProjecttForm(request.POST)
+    form = ProjectForm(request.POST)
     if form.is_valid():
         form.save()
         return redirect(reverse("homepage"))
