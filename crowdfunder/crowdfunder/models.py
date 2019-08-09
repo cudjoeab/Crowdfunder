@@ -9,7 +9,7 @@ from django.core.validators import (
 
 
 class Profile(models.Model):
-    username = models.CharField(max_length=300)
+    # username = models.CharField(max_length=300)
     first_name = models.CharField(max_length=300, blank=True)
     last_name = models.CharField(max_length=300, blank=True)
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE )
