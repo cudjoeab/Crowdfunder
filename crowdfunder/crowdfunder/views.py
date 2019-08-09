@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -36,16 +37,17 @@ def create_project(request):
         context = {"form": form}
         return render(request, "project_form.html", context)
 
-    
+@login_required
 def new_donate(request):  # Renders a form for user donations.
     form = DonateForm()
-    return render(request, "product_form.html", {
+    return render(request, "donate_form.html", {
         "form": form
     })
 
+@login_required
 def create_donate(request, project_id):  # User creating a new donation.
-    user = User.objects.get(pk=user_id)
-    form = DonateForm(request.POST, instance=product)
+    form = DonateForm(request.POST)
+
     if form.is_valid():
         form.save()
         return redirect(reverse("show_all"))
