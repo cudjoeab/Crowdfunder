@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from crowdfunder.models import *
+from crowdfunder.forms import *
 
 def root(request):
     return HttpResponseRedirect("/home")
