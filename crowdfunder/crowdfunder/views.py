@@ -71,20 +71,24 @@ def create_project(request):
         return render(request, "project_form.html", context)
 
 @login_required
-def new_donate(request):  # Renders a form for user donations.
-    form = DonateForm()
+def new_donate(request, project_id):  # Renders a form for user donations.
+    form = DonationForm()
     return render(request, "donate_form.html", {
-        "form": form
+        "form": form,
+        "project_id": project_id
     })
 
 @login_required
 def create_donate(request, project_id):  # User creating a new donation.
-    form = DonateForm(request.POST)
+    form = DonationForm(request.POST)
 
     if form.is_valid():
-        form.save()
-        return redirect(reverse("show_all"))
+        new_donation = form.save(commit=False)
+        new_donation.user = request.user
+        # new_donation.reward = .... reward instance
+        new_donation.save()
+        return redirect(reverse("project_details", kwargs={'id': project_id}))
     else:  # Else sends user back to existing donation form.
-        return render(request, "edit_product_form.html", {
-            "product": product, "form": form
+        return render(request, "donate_form.html", {
+            "project_id": project_id, "form": form
         }) 
