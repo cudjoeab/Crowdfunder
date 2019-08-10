@@ -15,6 +15,8 @@ class Project(models.Model):
     description = models.TextField(
         validators=[MinLengthValidator(10), MaxLengthValidator(500)]
     )
+    # fund goal
+    # current funds
 
     def __str__(self):
         return f'{self.title} by {self.creator}'
@@ -50,6 +52,7 @@ class Donation(models.Model):
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='donations_profile')
     reward = models.ForeignKey(Reward, on_delete=models.CASCADE, related_name='donations_reward')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='donations_project')
 
     def __str__(self):
         return f"{self.price_in_cents} pennies - Donator: {self.user} - Reward: {self.reward}"
