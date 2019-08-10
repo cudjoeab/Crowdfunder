@@ -6,7 +6,7 @@
 <form action="{% url 'new_project' %}" method= 'POST'>
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Submit project">
+    <input type="submit" value="Get funded!">
 </form>
 
 {% endblock %}

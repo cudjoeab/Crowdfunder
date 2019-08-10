@@ -2,14 +2,26 @@
 
 {% block_content %}
 
-<section>
+<section class="project_details">
     <h1>{{ project.title project_id=pk.id }} </h1>
     <h3>creator: {{ project.creator }} <br> </h3>
     <h3>timeline: {{ project.start_date }} - {{ project.end_date }} <br></h3>
-    <p> description: {{ project.description }}</p>
+    <p>description: {{ project.description }}</p>
+    <!-- need to confirm the instance variable name for the funding goal -->
+    <h3>goal:  project.goal  </h3> 
+</section>
+<section class="rewards">
+    <h2> Rewards </h2>
+    <article class= "reward_details"> 
+        <h3>{{ reward.level }}</h3>
+        <p>{{ reward.description }}</p>
+    </article>
+</section>
+<section class = donate_link>
+    <h3> <a href="{% url 'new_donate' %}" class="action_links">Donate</a></h3>
 </section>
 <aside>
-    <h3>similar projects</h3>
-</aside>
+    <h3><a href="{% url 'homepage' %}">similar projects(for now this is a link to home</a>/h3>
+</aside> 
 
 {% endblock %}

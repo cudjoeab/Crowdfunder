@@ -4,10 +4,12 @@
 
 {% for project in projects %}
 <section class="projects_gallery">
-    <ul>
-        <li>{{ project.title }}</li>
-        <li>{{ project.creator }}</li>
-    </ul>
+    <a href='{% url "project_details" %}'>
+        <ul>
+            <li>{{ project.title }}</li>
+            <li>{{ project.creator }}</li>
+        </ul>
+    </a>
 </section>
 
 {%  endfor %}

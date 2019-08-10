@@ -9,20 +9,20 @@
 <body>
     <header>
         <h1>
-            Crowdfunder logo 
+            <a href='{% url "home_page" %}'> Crowdfunder logo </a>
         </h1>
         <nav>
             <ul>
-                <li>sign up </li>
-                <li> login </li>
-                <li>search</li>
+                <li><a href='{% url "signup" %}'> sign up </a></li>
+                <li><a href='{% url "login" %}'> login </a></li>
+                <li><a href='#'> search</li>
             </ul>
         </nav>
     </header>
     <main>{% block content%} {% endblock %}</main>
     
     <footer>
-        created dopely by SAAS / ASAS / SASA 
+        created dopely by SASA 
     </footer>
 </body>
 </html>
