@@ -4,10 +4,11 @@
 
 <h1>{{ project.title }} </h1>
 <h2> Make a donation </h2>
-<form action="{% url 'create_donate' %}" method= 'POST'>
+<form action="{% url 'create_donate' project_id %}" method= 'POST'>
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Make a Donation">
+    <input type="reset" name="reset" value="Reset">
 </form>
 
 {% endblock %}
