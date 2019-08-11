@@ -33,5 +33,9 @@ urlpatterns = [
     # backing ADAM
     path('project/<int:project_id>/donate', views.new_donate, name="new_donate"), # Form
     path('project/<int:project_id>/donatecreate', views.create_donate, name="create_donate"), # Access the database, Validate
-    
+    # comments ABIGAIL 
+    path('project/<int:project_id>/comments/create', views.create_comment, name="create_comment"),  
+    path('project/<int:project_id>/comments/<int:comment_id>/update', views.update_comment, name="update_comment"),
+    path('project/<int:project_id>/comments/<int:comment_id>/edit', views.edit_comment, name="edit_comment"), 
+    path('project/<int:project_id>/comments/<int:comment_id>/delete',views.delete_comment, name="delete_comment"), 
 ]

@@ -96,3 +96,46 @@ def create_donate(request, project_id):  # User creating a new donation.
         return render(request, "donate_form.html", {
             "project_id": project_id, "form": form
         })
+
+@login_required
+def create_comment(request, project_id):
+    project = Project.objects.get(pk=product_id)
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.project = project
+        comment.save()
+        return redirect(reverse("project_details", args=(project_id)))
+    return render(request, "project_details.html", {
+    "project": project, "form": form
+    } )
+
+@login_required
+def edit_comment(request, project_id, comment_id):
+    project = Project.objects.get(pk=project_id)
+    comment = Comment.objects.get(pk=comment_id)
+    comment.product_id = comment_id
+    form = CommentForm(instance=comment)
+    return render(request, "edit_comment_form.html", {
+    "comment": comment,
+    "form": form,
+    "project": project})
+
+def update_comment(request, project_id, comment_id):
+    project = Project.objects.get(pk=project_id)
+    comment = Comment.objects.get(pk=comment_id)
+    form = CommentForm(request.POST, instance=comment)
+    if form.is_valid():
+        form.save()
+        return redirect(reverse("project_details"))
+    else:
+        context = {"comment": comment, "form": form, "project": project}
+        return render(request, "edit_comment_form.html", context)
+
+    def delete_comment(request, project_id, comment_id): 
+        comment = Comment.objects.get(pk=comment_id)
+        comment.delete()
+        return redirect(reverse("project_details", kwargs={"id":project_id}))
+            
+    
+    
