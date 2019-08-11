@@ -23,6 +23,15 @@ def home_page(request):
     context = {'projects': projects }
     return render(request, 'home.html', context)
 
+def search_project(request): 
+    query = request.GET['query']
+    search_results = Project.objects.filter(title=query, creator=query) # -- option 1-- 
+    # search_results = Project.objects.filter(title=query).filter(creator=query) -- option 2 -- 
+    return render(request,'search_results.html', {
+        'projects': search_results,
+        'query': query,
+    })
+
 def project_details(request, id):
     project = Project.objects.get(pk=id)
     return render(request, "project_details.html", {

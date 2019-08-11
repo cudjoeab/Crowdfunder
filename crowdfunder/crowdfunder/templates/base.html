@@ -17,6 +17,15 @@
                 <li><a href='{% url "login" %}'> login </a></li>
                 <li><a href='#'> search</li>
             </ul>
+            <section class="search_bar">
+                <form action="{% url 'search_project'%}" method="get">
+                    <label for="search_project">
+                        <span>search:</span>
+                        <input type="search" id="search_project" name="query" value="{{ query }}"/>
+                    </label>
+                    <input type="submit" value="search"/>
+                 </form>
+            </section>
         </nav>
     </header>
     <main>{% block content%} {% endblock %}</main>
