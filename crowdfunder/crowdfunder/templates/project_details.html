@@ -30,6 +30,7 @@
     <form action="{% url 'create_comment' %}" method="POST">
         {% csrf token %}
         {{ form.as_p }}
+        <input type="submit" value="post"/>
     </form>
     
 </section>
