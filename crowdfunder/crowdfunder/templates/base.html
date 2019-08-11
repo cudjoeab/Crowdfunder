@@ -14,9 +14,17 @@
         <nav>
             <ul>
                 <li>sign up </li>
-                <li> login </li>
-                <li>search</li>
+                <li>login </li>
             </ul>
+            <section class="search_bar">
+                <form action="{% url 'search_project'%}" method="get">
+                    <label for="search_project">
+                        <span>search:</span>
+                        <input type="search" id="search_project" name="query" value="{{ query }}"/>
+                    </label>
+                    <input type="submit" value="search"/>
+                 </form>
+            </section>
         </nav>
     </header>
     <main>{% block content%} {% endblock %}</main>
