@@ -1,11 +1,19 @@
+<<<<<<< HEAD
+=======
 from django.contrib.auth.decorators import login_required
+>>>>>>> 1c9b201376d0182d73b4af36180ba0f9d50c0932
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+<<<<<<< HEAD
+from crowdfunder.models import * 
+from django.forms import ModelForm
+=======
 from crowdfunder.models import *
 from crowdfunder.forms import *
 import pdb
+>>>>>>> 1c9b201376d0182d73b4af36180ba0f9d50c0932
 
 def root(request):
     return HttpResponseRedirect("/home")
@@ -85,21 +93,23 @@ def create_project(request):
 
 @login_required
 def new_donate(request, project_id):  # Renders a form for user donations.
-    project = Project.objects.get(pk=project_id)
-    form = DonationForm(instance = project)
+    form = DonationForm()
     return render(request, "donate_form.html", {
-        "form": form
+        "form": form,
+        "project_id": project_id
     })
 
 @login_required
-def create_donate(request):  # User creating a new donation.
-    project_id = request.POST['project']
-    project = Project.objects.get(id=project_id)
+def create_donate(request, project_id):  # User creating a new donation.
     form = DonationForm(request.POST)
+
     if form.is_valid():
-        form.save()
-        return redirect(reverse('project_details.html', {'project': project}))
+        new_donation = form.save(commit=False)
+        new_donation.user = request.user
+        # new_donation.reward = .... reward instance
+        new_donation.save()
+        return redirect(reverse("project_details", kwargs={'id': project_id}))
     else:  # Else sends user back to existing donation form.
         return render(request, "donate_form.html", {
-            "project": project, "form": form
-        }) 
+            "project_id": project_id, "form": form
+        })
