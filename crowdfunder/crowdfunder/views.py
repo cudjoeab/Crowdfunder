@@ -1,11 +1,19 @@
+<<<<<<< HEAD
+=======
 from django.contrib.auth.decorators import login_required
+>>>>>>> 1c9b201376d0182d73b4af36180ba0f9d50c0932
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+<<<<<<< HEAD
+from crowdfunder.models import * 
+from django.forms import ModelForm
+=======
 from crowdfunder.models import *
 from crowdfunder.forms import *
 import pdb
+>>>>>>> 1c9b201376d0182d73b4af36180ba0f9d50c0932
 
 def root(request):
     return HttpResponseRedirect("/home")
