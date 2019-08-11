@@ -67,10 +67,10 @@ def signup_view (request):
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return HttpResponseRedirect('/home')
-        else:
-            form = UserCreationForm()
-        html_response = render(request, 'signup.html', {'form': form})
-        return HttpResponse(html_response)
+    else:
+        form = UserCreationForm()
+    html_response = render(request, 'signup.html', {'form': form})
+    return HttpResponse(html_response)
 
 @login_required
 def new_project(request):

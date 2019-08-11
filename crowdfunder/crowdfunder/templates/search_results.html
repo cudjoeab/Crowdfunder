@@ -4,7 +4,7 @@
 <section class="search_results">
     <h2>Search Results: {{ projects.count }}</h2>
     {% for project in projects %}
-    <a href='{% url "project_details" %}'>
+    <a href='{% url "project_details" id=project.pk %}'>
         <ul>
             <li>{{ project.title }}</li>
             <li>{{ project.creator }}</li>
