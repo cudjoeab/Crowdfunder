@@ -2,11 +2,36 @@
 
 {% block content %}
 
-<section>
+<section class="project_details">
     <h1>{{ project.title }} </h1>
     <h3>creator: {{ project.creator }} <br> </h3>
     <h3>timeline: {{ project.start_date }} - {{ project.end_date }} <br></h3>
     <p> description: {{ project.description }}</p>
+</section>
+<section class="comments">
+    <h3>Comments:</h3>
+    <ul>
+    {% for comment in picture.comments.all  %}
+        <li class="single_comment">
+            <h6>{{comment.user}}</h6>
+            <p>{{ comment.message }}</p>
+        </li>
+        {%if request.user.is_authenticated %}
+        <li>
+            <a href= "{% url 'edit_comment' id=comment.pk %}"class="actionlinks">edit</a>
+        </li> 
+        <li>
+            <a href= "{% url 'delete_comment' id=comment.pk %}"class="actionlinks">delete</a>
+        </li>
+    
+        {% endif %}
+    {% endfor %}
+    </ul>
+    <form action="{% url 'create_comment' %}" method="POST">
+        {% csrf token %}
+        {{ form.as_p }}
+    </form>
+    
 </section>
 <aside>
     <h3>similar projects</h3>
