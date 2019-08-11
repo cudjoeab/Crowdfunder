@@ -28,6 +28,8 @@ urlpatterns = [
     path('signup/', views.signup_view, name="signup"), 
     # projects  ABIGAIL
     path('project/<int:id>', views.project_details, name="project_details"),
+    path('project/<int:project_id>/new_reward', views.new_reward, name='new_reward'),
+    path('project/<int:project_id>/create_reward', views.create_reward, name = 'create_reward'),
     path('project/new', views.new_project, name="new_project"), 
     path('project/create', views.create_project, name="create_project"), 
     # backing ADAM
