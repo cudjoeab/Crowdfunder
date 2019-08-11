@@ -1,19 +1,13 @@
-<<<<<<< HEAD
-=======
 from django.contrib.auth.decorators import login_required
->>>>>>> 1c9b201376d0182d73b4af36180ba0f9d50c0932
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-<<<<<<< HEAD
-from crowdfunder.models import * 
 from django.forms import ModelForm
-=======
 from crowdfunder.models import *
 from crowdfunder.forms import *
 import pdb
->>>>>>> 1c9b201376d0182d73b4af36180ba0f9d50c0932
+
 
 def root(request):
     return HttpResponseRedirect("/home")
@@ -39,6 +33,8 @@ def project_details(request, id):
     })
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/home')
     if request.method == 'POST':
         form = LoginForm (request.POST)
         if form.is_valid():
@@ -60,6 +56,8 @@ def logout_view(request):
     return HttpResponseRedirect('/home')
 
 def signup_view (request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/home')
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -74,6 +72,7 @@ def signup_view (request):
         html_response = render(request, 'signup.html', {'form': form})
         return HttpResponse(html_response)
 
+@login_required
 def new_project(request):
     form = ProjectForm()
     context = {"form": form}
@@ -92,6 +91,25 @@ def create_project(request):
         return render(request, "new_project_form.html", context)
 
 @login_required
+def edit_project(request, id):
+    project = get_object_or_404(Project, pk=id, creator=request.user.pk)
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            start_date = form.cleaned_data.get('start_date')
+            end_date = form.cleaned_data.get('end_date')
+            description = form.cleaned_data.get('description')
+            project.title = title
+            project.start_date = start_date
+            project.end_date = end_date
+            project.description = description
+            project.save()
+            return HttpResponseRedirect('/home')
+    form = ProjectForm(request.POST)
+    context = {'project': project, 'form': form}
+    return HttpResponse(render(request, 'editproject.html', context))
+
 def new_reward(request, project_id):
     form = RewardForm()
     context = {"form": form, "project_id": project_id}
@@ -107,7 +125,6 @@ def create_reward(request, project_id):
         return redirect(reverse('project_details', kwargs={'id': project_id}))
     else:
         return render(request, 'new_reward.html', context)
-
 
 
 @login_required
