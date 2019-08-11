@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -99,7 +99,7 @@ def create_donate(request, project_id):  # User creating a new donation.
 
 @login_required
 def create_comment(request, project_id):
-    project = Project.objects.get(pk=product_id)
+    project = Project.objets.get(pk=project_id)
     form = CommentForm(request.POST)
     if form.is_valid():
         comment = form.save(commit=False)
@@ -112,7 +112,7 @@ def create_comment(request, project_id):
 
 @login_required
 def edit_comment(request, project_id, comment_id):
-    project = Project.objects.get(pk=project_id)
+    project = get_object_or_404(Project, pk=id, user=request.user.pk)
     comment = Comment.objects.get(pk=comment_id)
     comment.product_id = comment_id
     form = CommentForm(instance=comment)
@@ -121,8 +121,9 @@ def edit_comment(request, project_id, comment_id):
     "form": form,
     "project": project})
 
+@login_required
 def update_comment(request, project_id, comment_id):
-    project = Project.objects.get(pk=project_id)
+    project =  get_object_or_404(Project, pk=id, user=request.user.pk)
     comment = Comment.objects.get(pk=comment_id)
     form = CommentForm(request.POST, instance=comment)
     if form.is_valid():
@@ -132,10 +133,11 @@ def update_comment(request, project_id, comment_id):
         context = {"comment": comment, "form": form, "project": project}
         return render(request, "edit_comment_form.html", context)
 
-    def delete_comment(request, project_id, comment_id): 
-        comment = Comment.objects.get(pk=comment_id)
-        comment.delete()
-        return redirect(reverse("project_details", kwargs={"id":project_id}))
+@login_required
+def delete_comment(request, project_id, comment_id): 
+    comment = get_object_or_404(Comment, pk=id, user=request.user.pk)
+    comment.delete()
+    return redirect(reverse("project_details", kwargs={"id":project_id}))
             
     
     
