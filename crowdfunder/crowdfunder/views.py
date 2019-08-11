@@ -92,6 +92,25 @@ def create_project(request):
         return render(request, "new_project_form.html", context)
 
 @login_required
+def new_reward(request, project_id):
+    form = RewardForm()
+    context = {"form": form, "project_id": project_id}
+    return render(request, "new_reward.html", context)
+
+# @login_required
+def create_reward(request, project_id):
+    form = RewardForm(request.POST)
+    if form.is_valid():
+        new_reward = form.save(commit = False)
+        new_reward.project = Project.objects.get(pk = project_id)
+        new_reward.save()
+        return redirect(reverse('project_details', kwargs={'id': project_id}))
+    else:
+        return render(request, 'new_reward.html', context)
+
+
+
+@login_required
 def new_donate(request, project_id):  # Renders a form for user donations.
     form = DonationForm()
     return render(request, "donate_form.html", {
@@ -102,12 +121,15 @@ def new_donate(request, project_id):  # Renders a form for user donations.
 @login_required
 def create_donate(request, project_id):  # User creating a new donation.
     form = DonationForm(request.POST)
-
     if form.is_valid():
         new_donation = form.save(commit=False)
         new_donation.user = request.user
-        # new_donation.reward = .... reward instance
+        new_donation.project = Project.objects.get(pk = project_id)
+        new_donation.reward = new_donation.determine_reward(project_id)
         new_donation.save()
+        project = Project.objects.get(pk = project_id)
+        project.current_funds = new_donation.total_donations(project_id)
+        project.save()
         return redirect(reverse("project_details", kwargs={'id': project_id}))
     else:  # Else sends user back to existing donation form.
         return render(request, "donate_form.html", {
