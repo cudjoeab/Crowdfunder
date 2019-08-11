@@ -33,5 +33,7 @@ urlpatterns = [
     # backing ADAM
     path('project/<int:project_id>/donate', views.new_donate, name="new_donate"), # Form
     path('project/<int:project_id>/donatecreate', views.create_donate, name="create_donate"), # Access the database, Validate
+    path('users', views.all_users, name="all_users"), # A list of all users.
+    path('user/<int:user_id>', views.user_profile, name="user_profile"), # User profile page
     
 ]

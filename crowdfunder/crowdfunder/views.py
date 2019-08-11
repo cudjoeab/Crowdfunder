@@ -96,3 +96,23 @@ def create_donate(request, project_id):  # User creating a new donation.
         return render(request, "donate_form.html", {
             "project_id": project_id, "form": form
         })
+
+
+def all_users(request):
+    all_users = User.objects.all
+    return render(request, 'all_users.html', {
+        'all_users': all_users 
+    })
+
+
+def user_profile(request, user_id):
+    user = User.objects.get(pk=user_id)
+    projects_owned = Project.objects.filter(creator=user)
+    projects_supported = Donation.objects.filter(user=user)
+
+    return render(request, 'user_profile.html', {
+        'user': user,
+        'projects_owned': projects_owned,
+        'projects_supported': projects_supported
+    })
+
