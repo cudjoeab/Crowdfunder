@@ -30,6 +30,7 @@ urlpatterns = [
     path('project/<int:id>', views.project_details, name="project_details"),
     path('project/new', views.new_project, name="new_project"), 
     path('project/create', views.create_project, name="create_project"), 
+    path('project/<int:id>/edit', views.edit_project, name="edit_project"),
     # backing ADAM
     path('project/<int:project_id>/donate', views.new_donate, name="new_donate"), # Form
     path('project/<int:project_id>/donatecreate', views.create_donate, name="create_donate"), # Access the database, Validate

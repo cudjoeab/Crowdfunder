@@ -59,5 +59,3 @@ class Donation(models.Model):
 
     def price_in_dollars(self):  # Converts cents to dollars.
         return self.price_in_cents / 100
-
-    
