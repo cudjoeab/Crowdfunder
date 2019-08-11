@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-import crowdfunder.views as views 
+import crowdfunder.views as views
 
 urlpatterns = [
     #base STANLEY
     path('admin/', admin.site.urls),
-    path('', root), 
+    path('', views.root), 
     path('home/', views.home_page, name="home_page"), 
     # registration SHAHEER
     path('login/', views.login_view, name="login"), 
@@ -31,7 +31,7 @@ urlpatterns = [
     path('project/new', views.new_project, name="new_project"), 
     path('project/create', views.create_project, name="create_project"), 
     # backing ADAM
-    path('project/<int:id>/donate', views.new_donate, name="new_donate"), # Form
-    path('project/<int:id>/donatecreate', views.create_donate, name="create_donate") # Access the database, Validate
+    path('project/<int:project_id>/donate', views.new_donate, name="new_donate"), # Form
+    path('project/<int:project_id>/donatecreate', views.create_donate, name="create_donate"), # Access the database, Validate
     
 ]
