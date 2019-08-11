@@ -5,7 +5,7 @@ from django.forms import CharField, PasswordInput, Form
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'start_date', 'end_date', 'description']
+        fields = ['title', 'start_date', 'end_date', 'description', 'fund_goal']
 
 
 class CommentForm(ModelForm):
@@ -17,7 +17,7 @@ class CommentForm(ModelForm):
 class RewardForm(ModelForm):
     class Meta:
         model = Reward
-        fields = ['description', 'level']
+        fields = ['name', 'description', 'minimum_donation']
 
 
 class DonationForm(ModelForm):

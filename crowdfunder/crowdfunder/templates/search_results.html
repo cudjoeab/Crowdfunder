@@ -1,9 +1,9 @@
-{% extends 'base.html'%}
-
+{% extends 'base.html' %}
 {% block content %}
 
-{% for project in projects %}
-<section class="projects_gallery">
+<section class="search_results">
+    <h2>Search Results: {{ projects.count }}</h2>
+    {% for project in projects %}
     <a href='{% url "project_details" %}'>
         <ul>
             <li>{{ project.title }}</li>
@@ -12,6 +12,5 @@
     </a>
 </section>
 
-{%  endfor %}
 
-{% endblock%}
+{% endblock %}

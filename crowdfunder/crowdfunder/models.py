@@ -15,8 +15,12 @@ class Project(models.Model):
     description = models.TextField(
         validators=[MinLengthValidator(10), MaxLengthValidator(500)]
     )
-    # fund goal
-    # current funds
+    fund_goal = models.FloatField(
+        validators = [MinValueValidator(100)]
+    )
+    current_funds = models.CharField(max_length = 100, blank = True, null = True)
+
+    
 
     def __str__(self):
         return f'{self.title} by {self.creator}'
@@ -34,16 +38,18 @@ class Comment(models.Model):
 
     
 class Reward(models.Model):
+    name = models.CharField(max_length = 100)
     description = models.TextField(
         validators=[MinLengthValidator(10), MaxLengthValidator(500)]
     )
-    level = models.IntegerField(
+    minimum_donation = models.FloatField(
         validators=[MinValueValidator(0)], null=True
     )
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name = 'rewards_project')
 
+
     def __str__(self):
-        return f"{self.description} - Level: {self.level} - Project: {self.project}"
+        return f"{self.name}"
 
 
 class Donation(models.Model):
@@ -51,11 +57,24 @@ class Donation(models.Model):
         validators=[MinValueValidator(100)], null=True
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='donations_profile')
-    reward = models.ForeignKey(Reward, on_delete=models.CASCADE, related_name='donations_reward')
+    reward = models.ForeignKey(Reward, blank = True, null = True, on_delete=models.CASCADE, related_name='donations_reward')
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='donations_project')
 
     def __str__(self):
-        return f"{self.price_in_cents} pennies - Donator: {self.user} - Reward: {self.reward}"
+        # Changed so it displays the dollar price instead of cents
+        return f"{self.price_in_cents/100} dollars - Donator: {self.user} - Reward: {self.reward}"
 
     def price_in_dollars(self):  # Converts cents to dollars.
         return self.price_in_cents / 100
+
+    def total_donations(self, project_id):
+        return Donation.objects.filter(project = project_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
+
+    def determine_reward(self, project_id):
+        rewards_list = Reward.objects.filter(project = project_id)
+        temp_reward = None
+        for i in range(len(rewards_list)):
+            if self.price_in_cents/100 >= rewards_list[i].minimum_donation:
+                temp_reward = rewards_list[i]
+        return temp_reward
+

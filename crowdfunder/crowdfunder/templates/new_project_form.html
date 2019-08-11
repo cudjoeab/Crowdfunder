@@ -3,10 +3,10 @@
 {% block content %}
 
 <h2> Submit a new project </h2>
-<form action="{% url 'create_project' %}" method= 'POST'>
+<form action="{% url 'new_project' %}" method= 'POST'>
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Submit project">
+    <input type="submit" value="Get funded!">
 </form>
 
 {% endblock %}
