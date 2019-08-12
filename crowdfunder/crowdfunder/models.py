@@ -26,6 +26,8 @@ class Project(models.Model):
         return f'{self.title} by {self.creator}'
 
 
+        
+
 class Comment(models.Model):
     message = models.TextField(
         validators=[MinLengthValidator(10), MaxLengthValidator(500)]
@@ -49,16 +51,16 @@ class Reward(models.Model):
 
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.minimum_donation} - {self.name}"
 
 
 class Donation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='donations_profile')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='donations_project')
     price_in_cents = models.IntegerField(
         validators=[MinValueValidator(100)], null=True
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='donations_profile')
     reward = models.ForeignKey(Reward, blank = True, null = True, on_delete=models.CASCADE, related_name='donations_reward')
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='donations_project')
 
     def __str__(self):
         # Changed so it displays the dollar price instead of cents
