@@ -7,7 +7,7 @@
 
     <ul>
         {% for user in all_users %}
-            <li><a href="user/{{user.pk}}">{{ user.username }}</a></li>
+            <li><a href="{% url 'user_profile' user.pk %}">{{ user.username }}</a></li>
         {% endfor %}
     </ul>
 </section>
