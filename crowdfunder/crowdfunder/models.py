@@ -70,6 +70,9 @@ class Donation(models.Model):
     def total_donations(self, project_id):
         return Donation.objects.filter(project = project_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
 
+    def total_donations_user(self, user_id):
+        return Donation.objects.filter(user = user_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
+
     def determine_reward(self, project_id):
         rewards_list = Reward.objects.filter(project = project_id).order_by('minimum_donation')
         temp_reward = None
