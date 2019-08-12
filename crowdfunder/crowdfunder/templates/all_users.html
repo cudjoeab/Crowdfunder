@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section>
+    <h2>All registered users:</h2>
+
+    <ul>
+        {% for user in all_users %}
+            <li><a href="user/{{user.pk}}">{{ user.username }}</a></li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
