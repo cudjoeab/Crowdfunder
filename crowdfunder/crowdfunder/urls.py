@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.root), 
     path('home/', views.home_page, name="home_page"), 
+    path('already_donated/', views.already_donated, name='already_donated'),
     # search ABIGAIL
     path('search', views.search_project, name='search_project'),
     # registration SHAHEER
@@ -51,5 +52,9 @@ urlpatterns = [
 
     path('users', views.all_users, name="all_users"), # A list of all users.
     path('user/<int:user_id>', views.user_profile, name="user_profile"), # User profile page
-    
+
+    path('profile/<int:user_id>/new', views.new_profile, name='new_profile'),
+    path('profile/create', views.create_profile, name='create_profile'),
+    path('user/<int:user_id>/edit', views.edit_profile, name="edit_profile"),
+    path('user/<int:user_id>/delete', views.delete_profile, name="delete_profile"),
 ]

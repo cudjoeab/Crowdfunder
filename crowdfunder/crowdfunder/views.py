@@ -98,7 +98,8 @@ def signup_view (request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return HttpResponseRedirect('/home')
+            return redirect(reverse('new_profile', kwargs={'user_id': user.id}))
+            # return HttpResponseRedirect('/home')
     else:
         form = UserCreationForm()
     html_response = render(request, 'signup.html', {'form': form})
@@ -117,7 +118,8 @@ def create_project(request):
         new_project = form.save(commit=False)
         new_project.creator = request.user
         new_project.save()
-        return redirect(reverse("home_page"))
+        return redirect(reverse('new_reward', kwargs={'project_id': new_project.id}))
+        # return redirect(reverse("home_page"))
     else:  
         context = {"form": form}
         return render(request, "new_project_form.html", context)
@@ -149,12 +151,14 @@ def delete_project(request, project_id):
     return redirect(reverse("home_page"))
 
 def new_reward(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, creator=request.user.pk)
     form = RewardForm()
     context = {"form": form, "project_id": project_id}
     return render(request, "new_reward.html", context)
 
-# @login_required
+@login_required
 def create_reward(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, creator=request.user.pk)
     form = RewardForm(request.POST)
     if form.is_valid():
         new_reward = form.save(commit = False)
@@ -179,17 +183,23 @@ def create_donate(request, project_id):  # User creating a new donation.
     if form.is_valid():
         new_donation = form.save(commit=False)
         new_donation.user = request.user
-        new_donation.project = Project.objects.get(pk = project_id)
-        new_donation.reward = new_donation.determine_reward(project_id)
-        new_donation.save()
-        project = Project.objects.get(pk = project_id)
-        project.current_funds = new_donation.total_donations(project_id)
-        project.save()
-        return redirect(reverse("project_details", kwargs={'project_id': project_id}))
+        if new_donation.check_donation(project_id, new_donation.user):
+            return redirect(reverse('already_donated'))
+        else:
+            new_donation.project = Project.objects.get(pk = project_id)
+            new_donation.reward = new_donation.determine_reward(project_id)
+            new_donation.save()
+            project = Project.objects.get(pk = project_id)
+            project.current_funds = Donation.total_donations(project_id)
+            project.save()
+            return redirect(reverse("project_details", kwargs={'project_id': project_id}))
     else:  # Else sends user back to existing donation form.
         return render(request, "donate_form.html", {
             "project_id": project_id, "form": form
         })
+
+def already_donated(request):
+    return render(request, 'already_donated.html')
 
 @login_required
 def create_comment(request, project_id):
@@ -304,16 +314,61 @@ def all_users(request):
 
 def user_profile(request, user_id):
     user = User.objects.get(pk=user_id)
+    profile = Profile.objects.get(user = user)
     projects_owned = Project.objects.filter(creator=user)
     projects_supported = Donation.objects.filter(user=user)
-    user_donations = Donation.objects.filter(user=user)[0]
-    user_total_donation = user_donations.total_donations_user(user_id)
+    user_total_donation = Donation.total_donations_user(user_id)
 
     return render(request, 'user_profile.html', {
         'user': user,
         'projects_owned': projects_owned,
         'projects_supported': projects_supported,
-        'user_total_donation': user_total_donation
+        'user_total_donation': user_total_donation,
+        'profile': profile
     })
 
+@login_required
+def new_profile(request, user_id):
+    form = ProfileForm()
+    context = {"form": form}
+    return render(request, "new_profile_form.html", context)
 
+@login_required
+def create_profile(request):
+    form = ProfileForm(request.POST)
+    if form.is_valid():
+        new_profile = form.save(commit=False)
+        new_profile.user = request.user
+        new_profile.save()
+        return redirect(reverse("home_page"))
+    else:
+        context = {"form": form}
+        return render(request, "new_profile_form.html", context)
+
+@login_required
+def edit_profile(request, user_id):
+    user = get_object_or_404(User, pk=user_id, id=request.user.pk)
+    profile = Profile.objects.get(user = user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            email = form.cleaned_data.get('email')
+            description = form.cleaned_data.get('description')
+            profile.first_name = first_name
+            profile.last_name = last_name
+            profile.email = email
+            profile.description = description
+            profile.save()
+            return redirect(reverse("home_page"))
+    form = ProfileForm(request.POST)
+    context = {'profile': profile, 'form': form}
+    return HttpResponse(render(request, 'editprofile.html', context))
+
+@login_required
+def delete_profile(request, user_id):
+    user = get_object_or_404(User, pk=user_id, id=request.user.pk)
+    logout(request)
+    user.delete()
+    return redirect(reverse("home_page"))
