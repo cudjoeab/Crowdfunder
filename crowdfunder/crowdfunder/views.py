@@ -104,7 +104,8 @@ def create_project(request):
         new_project = form.save(commit=False)
         new_project.creator = request.user
         new_project.save()
-        return redirect(reverse("home_page"))
+        return redirect(reverse('new_reward', kwargs={'project_id': new_project.id}))
+        # return redirect(reverse("home_page"))
     else:  
         context = {"form": form}
         return render(request, "new_project_form.html", context)
@@ -136,12 +137,14 @@ def delete_project(request, project_id):
     return redirect(reverse("home_page"))
 
 def new_reward(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, creator=request.user.pk)
     form = RewardForm()
     context = {"form": form, "project_id": project_id}
     return render(request, "new_reward.html", context)
 
-# @login_required
+@login_required
 def create_reward(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, creator=request.user.pk)
     form = RewardForm(request.POST)
     if form.is_valid():
         new_reward = form.save(commit = False)
@@ -166,17 +169,23 @@ def create_donate(request, project_id):  # User creating a new donation.
     if form.is_valid():
         new_donation = form.save(commit=False)
         new_donation.user = request.user
-        new_donation.project = Project.objects.get(pk = project_id)
-        new_donation.reward = new_donation.determine_reward(project_id)
-        new_donation.save()
-        project = Project.objects.get(pk = project_id)
-        project.current_funds = new_donation.total_donations(project_id)
-        project.save()
-        return redirect(reverse("project_details", kwargs={'project_id': project_id}))
+        if new_donation.check_donation(project_id, new_donation.user):
+            return redirect(reverse('already_donated'))
+        else:
+            new_donation.project = Project.objects.get(pk = project_id)
+            new_donation.reward = new_donation.determine_reward(project_id)
+            new_donation.save()
+            project = Project.objects.get(pk = project_id)
+            project.current_funds = Donation.total_donations(project_id)
+            project.save()
+            return redirect(reverse("project_details", kwargs={'project_id': project_id}))
     else:  # Else sends user back to existing donation form.
         return render(request, "donate_form.html", {
             "project_id": project_id, "form": form
         })
+
+def already_donated(request):
+    return render(request, 'already_donated.html')
 
 @login_required
 def create_comment(request, project_id):
@@ -239,8 +248,7 @@ def user_profile(request, user_id):
     user = User.objects.get(pk=user_id)
     projects_owned = Project.objects.filter(creator=user)
     projects_supported = Donation.objects.filter(user=user)
-    user_donations = Donation.objects.filter(user=user)[0]
-    user_total_donation = user_donations.total_donations_user(user_id)
+    user_total_donation = Donation.total_donations_user(user_id)
 
     return render(request, 'user_profile.html', {
         'user': user,
