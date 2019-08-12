@@ -47,14 +47,11 @@
                 <a href='{% url "user_profile" comment.user.pk %}'>{{ comment.user }}</a>
             </h6>
             <p>{{ comment.message }}</p>        
-        </li>
-        {%if request.user.is_authenticated %}
-            <li>
-                
-            </li> 
-            <li>
-                {{project.pk}} {{comment.id}}
-                <a href= "{% url 'delete_comment' project_id=project.pk comment_id=comment.id %}" class="actionlinks">delete</a>
+            {%if request.user.is_authenticated %}
+                <p>
+                    <a href= "{% url 'edit_comment' project_id=project.pk comment_id=comment.id %}"class="actionlinks">edit</a>
+                    <a href= "{% url 'delete_comment' project_id=project.pk comment_id=comment.id %}" class="actionlinks">delete</a>
+                </p>
             </li>
         {% endif %}
     {% endfor %}

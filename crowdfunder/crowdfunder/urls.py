@@ -42,7 +42,7 @@ urlpatterns = [
 
     # comments ABIGAIL 
     path('project/<int:project_id>/comments/create', views.create_comment, name="create_comment"),  
-    path('project/<int:project_id>/comments/<int:comment_id>/update', views.update_comment, name="update_comment"),
+    # path('project/<int:project_id>/comments/<int:comment_id>/update', views.update_comment, name="update_comment"),
     path('project/<int:project_id>/comments/<int:comment_id>/edit', views.edit_comment, name="edit_comment"), 
     path('project/<int:project_id>/comments/<int:comment_id>/delete',views.delete_comment, name="delete_comment"), 
 
