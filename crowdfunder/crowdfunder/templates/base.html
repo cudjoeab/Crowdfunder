@@ -10,15 +10,9 @@
 </head>
 <body>
     <header>
-        <h1 class="logo">
-            <a href='{% url "home_page" %}'>
-            <img src="{% static 'css/images/crowd_blk.png' %}" alt="CrowdFunder logo as a crowd of people" title="crowdfunder"/>
-            Crowdfunder
-            </a>
-            
-        </h1>
-        <nav>
-            <ul class="navbar">
+        <nav class="dropdown">
+            <h2><img src="{% static 'css/images/menu-button.png' %}" alt="menu button of 3 horizontal lines" title="menu"/></h2>
+            <ul class="navbar-content">
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                     <li><a href="{% url 'new_project' %}">Create Project</a></li>
@@ -29,8 +23,8 @@
                 {% endif %}
                 
                 <li><a href="{% url 'all_users' %}">All Users</a></li>
-            </ul>
-            <section class="search_bar">
+            
+                <li class="search_bar">
                 <form action="{% url 'search_project'%}" method="get">
                     <label for="search-project">
                         <span>Search:</span>
@@ -38,14 +32,21 @@
                     </label>
                     <input type="submit" value="Search"/>
                 </form>
-            </section>
+                </li>
+            </ul>
         </nav>
+        <h1 class="logo">
+                <a href='{% url "home_page" %}'>
+                <img src="{% static 'css/images/crowd_blk.png' %}" alt="CrowdFunder logo as a crowd of people" title="crowdfunder"/>    
+                <h2>Crowdfunder</h2>
+                </a>
+            </h1>
     </header>
     <main>{% block content%} {% endblock %}</main>
     
     <footer>
         created dopely by SASA 
-        <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"                 title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"                 title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"                 title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"                 title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
     </footer>
 </body>
 </html>
