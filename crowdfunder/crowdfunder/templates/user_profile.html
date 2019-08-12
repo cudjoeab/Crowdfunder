@@ -21,14 +21,14 @@
             <li>
                 <a href='{% url "project_details" project.pk %}'>{{ project.project }}</a><br/>
                 {{ project.project.description }}<br/>
-                Donated: ${{ project.price_in_cents }}<br/>
-                Reward: {{ project.reward.description }}
+                Donated: {{ project.price_in_cents }} pennies<br/>
+                Reward: {{ project.reward.yes }}
             </li>
         {% endfor %}
     </ul>
     <p>Add Reward.name or project.project.name?</p>
 
     <h3>Total ammount pledged:</h3>
-    <p>$...</p>
+    <p>${{user_total_donation}}</p>
 </section>
 {% endblock %}

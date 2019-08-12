@@ -229,19 +229,8 @@ def user_profile(request, user_id):
     user = User.objects.get(pk=user_id)
     projects_owned = Project.objects.filter(creator=user)
     projects_supported = Donation.objects.filter(user=user)
-
     user_donations = Donation.objects.filter(user=user)[0]
     user_total_donation = user_donations.total_donations_user(user_id)
-    # <QuerySet [<Donation: 5.0 dollars - Donator: admin - Reward: None>]>
-
-
-    # total_user_donations = user_donations.total_donations(donation)
-    
-    breakpoint()
-
-    # project = Project.objects.get(pk = project_id)
-    # project.current_funds = new_donation.total_donations(project_id)
-
 
     return render(request, 'user_profile.html', {
         'user': user,
