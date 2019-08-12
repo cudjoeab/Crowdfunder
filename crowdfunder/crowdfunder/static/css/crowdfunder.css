@@ -1,14 +1,16 @@
 /* COLOR SCHEME */
 *{
-    border: black solid 2px; 
+    /* border: black solid 2px;  */
+    font-family: 'Lexend Deca', sans-serif;
 }
 body{
     margin: 0 auto; 
 }
-.logo {
-    
+a:visited {
+    color: rgba(74, 37, 69, 1);
 }
-a {
+
+.logo {
     text-decoration: none;
     display: grid;
     grid-template-columns: 1fr 90%; 
@@ -44,9 +46,9 @@ header {
 .navbar-content {
     display: none;
     position: absolute; 
-    background-color: rgba(144, 170, 134, 1);
+    background-color: rgba(144, 170, 134, 0.5);
     list-style-type: none;
-    min-width: 160px;
+    min-width: 300px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,1,0.2);
     padding: 12px 16px; 
     z-index: 1; 
@@ -56,13 +58,25 @@ header {
     display: block; 
 }
 
+.projects_gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1em; 
+    margin: 0 20px; 
+}
+.project_preview {
+    list-style-type: none;
+    padding: 20px; 
+    text-align: center; 
 
+}
 
 footer {
     background-color: rgba(130, 76, 113, 0.5); 
     color: rgba(74, 37, 69, 1);
     padding: 20px;
     text-align: right; 
+    
     
 
 }

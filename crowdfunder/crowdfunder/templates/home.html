@@ -2,15 +2,15 @@
 
 {% block content %}
 
-{% for project in projects %}
 <section class="projects_gallery">
-        <ul>
+{% for project in projects %}
+        <ul class = "project_preview">
             <li><a href='{% url "project_details" project_id=project.pk %}'>{{ project.title }}</a></li>
             <li><a href='{% url "user_profile" project.creator.pk %}'>{{ project.creator }}</a></li>
         </ul>
-    </a>
+{%  endfor %}    
 </section>
 
-{%  endfor %}
+
 
 {% endblock%}
