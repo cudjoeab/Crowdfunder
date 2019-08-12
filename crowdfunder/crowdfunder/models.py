@@ -71,7 +71,7 @@ class Donation(models.Model):
         return Donation.objects.filter(project = project_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
 
     def determine_reward(self, project_id):
-        rewards_list = Reward.objects.filter(project = project_id)
+        rewards_list = Reward.objects.filter(project = project_id).order_by('minimum_donation')
         temp_reward = None
         for i in range(len(rewards_list)):
             if self.price_in_cents/100 >= rewards_list[i].minimum_donation:

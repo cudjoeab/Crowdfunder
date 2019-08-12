@@ -29,8 +29,8 @@ urlpatterns = [
     path('logout/', views.logout_view, name="logout"),
     path('signup/', views.signup_view, name="signup"), 
     # projects  ABIGAIL
-    path('project/<int:id>', views.project_details, name="project_details"),
-    path('project/<int:id>/edit', views.edit_project, name="edit_project"),
+    path('project/<int:project_id>', views.project_details, name="project_details"),
+    path('project/<int:project_id>/edit', views.edit_project, name="edit_project"),
     path('project/<int:project_id>/new_reward', views.new_reward, name='new_reward'),
     path('project/<int:project_id>/create_reward', views.create_reward, name = 'create_reward'),
     path('project/new', views.new_project, name="new_project"), 
