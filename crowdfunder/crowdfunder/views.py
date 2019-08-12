@@ -250,27 +250,45 @@ def user_profile(request, user_id):
     })
 
 @login_required
+def new_profile(request):
+    form = ProfileForm()
+    context = {"form": form}
+    return render(request, "new_profile_form.html", context)
+
+@login_required
+def create_profile(request):
+    form = ProfileForm(request.POST)
+    if form.is_valid():
+        new_profile = form.save(commit=False)
+        new_profile.user = request.user
+        new_profile.save()
+        return redirect(reverse("home_page"))
+    else:
+        context = {"form": form}
+        return render(request, "new_profile_form.html", context)
+
+@login_required
 def edit_profile(request, user_id):
-    profile = get_object_or_404(Profilex, pk=user_id, user=request.user.pk)
+    profile = get_object_or_404(Profile, pk=user_id, user=request.user.pk)
     if request.method == 'POST':
-        form = ProfilexForm(request.POST)
+        form = ProfileForm(request.POST)
         if form.is_valid():
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
             email = form.cleaned_data.get('email')
             description = form.cleaned_data.get('description')
-            profilex.first_name = first_name
-            profilex.last_name = last_name
-            profilex.email = email
-            profilex.description = description
-            profilex.save()
-            return HttpResponseRedirect(f'/user/{user_id}')
-    form = ProfilexForm(request.POST)
-    context = {'profilex': profilex, 'form': form}
+            profile.first_name = first_name
+            profile.last_name = last_name
+            profile.email = email
+            profile.description = description
+            profile.save()
+            return HttpResponseRedirect('/users')
+    form = ProfileForm(request.POST)
+    context = {'profile': profile, 'form': form}
     return HttpResponse(render(request, 'editprofile.html', context))
 
 @login_required
 def delete_profile(request, user_id):
-    profilex = get_object_or_404(Profilex, pk=user_id, user=request.user.pk)
-    profilex.delete()
+    profile = get_object_or_404(Profile, pk=user_id, user=request.user.pk)
+    profile.delete()
     return redirect(reverse("home_page"))
