@@ -13,16 +13,19 @@
 
 {% if request.user.is_authenticated and request.user == project.creator %}
     <section class="action_links">
-        <h3><a href="{% url 'edit_project' id=project.pk %}">Edit Project</a></h3>
+        <h3><a href="{% url 'edit_project' project_id=project.pk %}">Edit Project</a></h3>
         <h3><a href="#">Delete Project</a></h3>
     </section> 
 {% endif %}
 
 <section class="rewards">
     <h2> Rewards </h2>
+    <a href="{% url 'new_reward' project_id=project.pk %}">Add New Reward</a>
     <article class= "reward_details"> 
-        <h3>{{ reward.level }}</h3>
+    {% for reward in rewards %}
+        <h3>{{ reward.name }}</h3>
         <p>{{ reward.description }}</p>
+    {% endfor %}
     </article>
 </section>
                

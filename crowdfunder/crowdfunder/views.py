@@ -44,10 +44,11 @@ def search_project(request):
         'query': query
     })
 
-def project_details(request, id):
-    project = Project.objects.get(pk=id)
+def project_details(request, project_id):
+    project = Project.objects.get(pk=project_id)
+    rewards = Reward.objects.filter(project = project)
     return render(request, "project_details.html", {
-    'project': project
+    'project': project, 'rewards': rewards
     })
 
 def login_view(request):
@@ -109,8 +110,8 @@ def create_project(request):
         return render(request, "new_project_form.html", context)
 
 @login_required
-def edit_project(request, id):
-    project = get_object_or_404(Project, pk=id, creator=request.user.pk)
+def edit_project(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, creator=request.user.pk)
     if request.method == 'POST':
         form = ProjectForm(request.POST)
         if form.is_valid():
