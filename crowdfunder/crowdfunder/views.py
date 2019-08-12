@@ -248,7 +248,6 @@ def user_profile(request, user_id):
     user = User.objects.get(pk=user_id)
     projects_owned = Project.objects.filter(creator=user)
     projects_supported = Donation.objects.filter(user=user)
-    # user_donations = Donation.objects.filter(user=user)[0]
     user_total_donation = Donation.total_donations_user(user_id)
 
     return render(request, 'user_profile.html', {
