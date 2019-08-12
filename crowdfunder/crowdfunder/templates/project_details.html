@@ -14,7 +14,7 @@
 {% if request.user.is_authenticated and request.user == project.creator %}
     <section class="action_links">
         <h3><a href="{% url 'edit_project' project_id=project.pk %}">Edit Project</a></h3>
-        <h3><a href="#">Delete Project</a></h3>
+        <h3><a href="{% url 'delete_project' project_id=project.pk %}">Delete Project</a></h3>
     </section> 
 {% endif %}
 
