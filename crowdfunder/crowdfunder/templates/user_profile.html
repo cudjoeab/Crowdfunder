@@ -3,7 +3,7 @@
 {% block content %}
 
 <section>
-    <h2>{{ user.username }} profile</h2>
+    <h2>{{ profile.first_name }} profile</h2>
 
     <p>Bio?</p>
 
@@ -30,6 +30,6 @@
     <p>Add Reward.name or project.project.name?</p>
 
     <h3>Total ammount pledged:</h3>
-    <p>${{user_total_donation}}</p>
+    <p>{{user_total_donation}}</p>
 </section>
 {% endblock %}

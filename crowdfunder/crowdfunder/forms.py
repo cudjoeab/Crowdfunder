@@ -1,5 +1,6 @@
+
 from django.forms import ModelForm, ModelChoiceField
-from crowdfunder.models import Project, Comment, Reward, Donation
+from crowdfunder.models import Project, Comment, Reward, Donation, Profile
 from django.forms import CharField, PasswordInput, Form
 from datetime import datetime, date
 from django import forms
@@ -59,3 +60,8 @@ class DonationForm(ModelForm):
 class LoginForm(Form):
     username = CharField(label="User Name", max_length=64)
     password = CharField(widget=PasswordInput())
+
+class ProfileForm(ModelForm):
+    class Meta: 
+        model = Profile
+        fields = ['first_name', 'last_name', 'email', 'description']

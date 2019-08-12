@@ -7,6 +7,17 @@ from django.core.validators import (
     MinValueValidator,
 )
 
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile_user')
+    first_name = models.CharField(max_length=255)
+    last_name =  models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    description = models.TextField(validators=[MinLengthValidator(10), MaxLengthValidator(500)])
+    total_donations = models.FloatField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 class Project(models.Model):
     title = models.CharField(max_length=300)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'project')
@@ -25,8 +36,6 @@ class Project(models.Model):
     def __str__(self):
         return f'{self.title} by {self.creator}'
 
-
-        
 
 class Comment(models.Model):
     message = models.TextField(
@@ -75,7 +84,12 @@ class Donation(models.Model):
     
     @classmethod
     def total_donations_user(cls, user_id):
-        return Donation.objects.filter(user = user_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
+        user_donations = Donation.objects.filter(user = user_id).aggregate(models.Sum('price_in_cents'))
+        # return user_donations
+        if user_donations['price_in_cents__sum'] != None:
+            return f'${user_donations["price_in_cents__sum"]/100}'
+        else:
+            return None
 
     def determine_reward(self, project_id):
         rewards_list = Reward.objects.filter(project = project_id).order_by('minimum_donation')
