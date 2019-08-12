@@ -19,7 +19,7 @@ class Project(models.Model):
         validators = [MinValueValidator(100)]
     )
     current_funds = models.CharField(max_length = 100, blank = True, null = True)
-
+ 
     
 
     def __str__(self):
@@ -70,8 +70,9 @@ class Donation(models.Model):
     @classmethod
     def total_donations(cls, project_id):
         return Donation.objects.filter(project = project_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
-
-    def total_donations_user(self, user_id):
+    
+    @classmethod
+    def total_donations_user(cls, user_id):
         return Donation.objects.filter(user = user_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
 
     def determine_reward(self, project_id):
