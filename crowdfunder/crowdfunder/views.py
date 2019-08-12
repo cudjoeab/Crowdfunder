@@ -221,13 +221,17 @@ def delete_comment(request, project_id, comment_id):
     comment = get_object_or_404(Comment, pk=id, user=request.user.pk)
     comment.delete()
     return redirect(reverse("project_details", kwargs={"project_id":project_id}))
-            
 
 
 def all_users(request):
-    all_users = User.objects.all
+    all_projects = Project.objects.all()
+    creator_list = {}
+    for project in all_projects:
+        if project.creator not in creator_list:
+            creator_list[project.creator.id] = project.creator
+
     return render(request, 'all_users.html', {
-        'all_users': all_users 
+        'creator_list': creator_list
     })
 
 
