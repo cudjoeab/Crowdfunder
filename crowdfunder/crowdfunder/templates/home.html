@@ -8,7 +8,6 @@
             <li><a href='{% url "project_details" project_id=project.pk %}'>{{ project.title }}</a></li>
             <li><a href='{% url "user_profile" project.creator.pk %}'>{{ project.creator }}</a></li>
         </ul>
-    </a>
 </section>
 
 {%  endfor %}

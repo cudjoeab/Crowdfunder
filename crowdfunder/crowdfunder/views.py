@@ -129,6 +129,12 @@ def edit_project(request, project_id):
     context = {'project': project, 'form': form}
     return HttpResponse(render(request, 'editproject.html', context))
 
+@login_required    
+def delete_project(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, creator=request.user.pk)
+    project.delete()
+    return redirect(reverse("home_page"))
+
 def new_reward(request, project_id):
     form = RewardForm()
     context = {"form": form, "project_id": project_id}
