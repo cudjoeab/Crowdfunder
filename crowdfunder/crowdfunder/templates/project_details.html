@@ -7,7 +7,7 @@
     <h3>creator: <a href='{% url "user_profile" project.creator.pk %}'>{{ project.creator }}</a></h3>
     <h3>timeline: {{ project.start_date }} - {{ project.end_date }} <br></h3>
     <p>description: {{ project.description }}</p>
-    <h3>goal:{{ project.fund_goal }}  </h3> 
+    <h3>goal: {{ project.fund_goal }}  </h3> 
     <h3>total so far: {{ project.current_funds }}</h3>
 </section>
 

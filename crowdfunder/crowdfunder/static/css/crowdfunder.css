@@ -5,10 +5,16 @@
 }
 body{
     margin: 0 auto; 
+    
+    background-image: url("images/money_falling.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+   
 }
-a:visited {
-    color: rgba(74, 37, 69, 1);
-}
+
+
+   
 
 .logo {
     text-decoration: none;
@@ -33,7 +39,7 @@ h2 {
 }
 header {
     /* background: url("image/crowd1.png"); */
-    background-color:  rgba(130, 76, 113, 0.5); 
+    background-color:  rgba(130, 76, 113, 1); 
     color: rgba(74, 37, 69, 1); 
     padding: 5px;
     display: grid;
@@ -65,22 +71,43 @@ header {
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1em; 
     margin: 0 20px; 
+    
 }
 .project_preview {
+    font-size: 20px; 
     list-style-type: none;
     padding: 20px; 
     text-align: center; 
+    background: rgba(144, 170, 134, 0.5);
 
 }
+.project_details {
+    padding: 20px; 
+    margin-bottom: 0; 
+}
+
+
 
 footer {
     background-color: rgba(130, 76, 113, 0.5); 
     color: rgba(74, 37, 69, 1);
     padding: 20px;
     text-align: right; 
-    position: fixed; 
+    position: absolute; 
     left: 0;
     bottom: 0;
     width: 100%; 
 }
 
+a {
+    color: black; 
+    text-decoration: none; 
+}
+
+a:hover {
+    color:  
+}
+
+a:visited{
+    color: rgba(0, 0, 1, 1);
+}
