@@ -4,7 +4,7 @@
 
 <section class="project_details" >
     <h1>{{ project.title }} </h1>
-    <h3>creator: {{ project.creator }} <br> </h3>
+    <h3>creator: <a href='{% url "user_profile" project.creator.pk %}'>{{ project.creator }}</a></h3>
     <h3>timeline: {{ project.start_date }} - {{ project.end_date }} <br></h3>
     <p>description: {{ project.description }}</p>
     <h3>goal:{{ project.fund_goal }}  </h3> 
@@ -36,7 +36,9 @@
     <ul>
     {% for comment in picture.comments.all  %}
         <li class="single_comment">
-            <h6>{{comment.user}}</h6>
+            <h6>
+                <a href='{% url "user_profile" comment.creator.pk %}'>{{ comment.user }}</a>
+            </h6>
             <p>{{ comment.message }}</p>
         </li>
         {%if request.user.is_authenticated %}
