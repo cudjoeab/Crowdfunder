@@ -3,7 +3,7 @@
 {% block content %}
 
 <section class="project_details">
-    <h1>{{ project.title project_id=pk.id }} </h1>
+    <h1>{{ project.title }} </h1>
     <h3>creator: {{ project.creator }} <br> </h3>
     <h3>timeline: {{ project.start_date }} - {{ project.end_date }} <br></h3>
     <p>description: {{ project.description }}</p>
@@ -19,7 +19,7 @@
 </section>
 <section class = donate_link>
     <h3> <a href="{% url 'new_donate' %}" class="action_links">Donate</a></h3>
-</section>
+</section> 
 <aside>
     <h3><a href="{% url 'homepage' %}">similar projects(for now this is a link to home</a>/h3>
 </aside> 
