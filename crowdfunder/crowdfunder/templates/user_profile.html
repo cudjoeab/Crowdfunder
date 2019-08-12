@@ -10,8 +10,8 @@
     <h3>Projects owned:</h3>
     <ul>
         {% for project in projects_owned %}
-            <li><a href="project/{{project.pk}}">{{ project.title }}</a><br/>
-            {{ project.description }}</li>
+            <li><a href='{% url "project_details" project.pk %}'>{{ project.title }}</a><br/>
+                {{ project.description }}</li>
         {% endfor %}
     </ul>
 
@@ -19,7 +19,7 @@
     <ul>
         {% for project in projects_supported %}
             <li>
-                <a href="project/{{project.project.pk}}">{{ project.project }}</a><br/>
+                <a href='{% url "project_details" project.pk %}'>{{ project.project }}</a><br/>
                 {{ project.project.description }}<br/>
                 Donated: ${{ project.price_in_cents }}<br/>
                 Reward: {{ project.reward.description }}
