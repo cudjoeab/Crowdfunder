@@ -81,3 +81,14 @@ class Donation(models.Model):
                 temp_reward = rewards_list[i]
         return temp_reward
 
+
+class Update(models.Model):
+    message = models.TextField(
+        validators=[MinLengthValidator(10), MaxLengthValidator(500)]
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='updates_profile')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='updates_project')
+
+    def __str__(self):
+        return f'"{self.message}" - by {self.user} on {self.project}'
+    

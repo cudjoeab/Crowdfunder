@@ -15,6 +15,16 @@
     <section class="action_links">
         <h3><a href="{% url 'edit_project' project_id=project.pk %}">Edit Project</a></h3>
         <h3><a href="{% url 'delete_project' project_id=project.pk %}">Delete Project</a></h3>
+        <h3><a href="{% url 'create_update' project_id=project.pk %}">Post an Update</a></h3>
+    
+        <h3>Post an Update on your Project:</h3>
+        <form action="{% url 'create_update' project_id=project.id %}" method="POST">
+            {% csrf_token %}
+            {{ update_form.as_p }}
+            <input type="submit" value="post"/>
+        </form>  
+    
+    
     </section> 
 {% endif %}
 
@@ -52,7 +62,7 @@
     </ul>
     <form action="{% url 'create_comment' project_id=project.id %}" method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ comment_form.as_p }}
         <input type="submit" value="post"/>
     </form>  
 </section>

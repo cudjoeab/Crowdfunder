@@ -46,6 +46,9 @@ urlpatterns = [
     path('project/<int:project_id>/comments/<int:comment_id>/edit', views.edit_comment, name="edit_comment"), 
     path('project/<int:project_id>/comments/<int:comment_id>/delete',views.delete_comment, name="delete_comment"), 
 
+    # Updates for Projects
+    path('project/<int:project_id>/updates/create', views.create_update, name="create_update"),  
+
     path('users', views.all_users, name="all_users"), # A list of all users.
     path('user/<int:user_id>', views.user_profile, name="user_profile"), # User profile page
     
