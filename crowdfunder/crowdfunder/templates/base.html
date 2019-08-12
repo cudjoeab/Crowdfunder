@@ -11,8 +11,11 @@
 <body>
     <header>
         <h1 class="logo">
-            <a href='{% url "home_page" %}'> Crowdfunder</a>
-            <img src="css/images/crowd1.png" alt="CrowdFunder logo as a crowd of people" title="crowdfunder"/>
+            <a href='{% url "home_page" %}'>
+            <img src="{% static 'css/images/crowd_blk.png' %}" alt="CrowdFunder logo as a crowd of people" title="crowdfunder"/>
+            Crowdfunder
+            </a>
+            
         </h1>
         <nav>
             <ul class="navbar">
