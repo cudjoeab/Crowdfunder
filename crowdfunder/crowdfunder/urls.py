@@ -30,11 +30,12 @@ urlpatterns = [
     path('signup/', views.signup_view, name="signup"), 
     # projects  ABIGAIL
     path('project/<int:id>', views.project_details, name="project_details"),
+    path('project/<int:id>/edit', views.edit_project, name="edit_project"),
     path('project/<int:project_id>/new_reward', views.new_reward, name='new_reward'),
     path('project/<int:project_id>/create_reward', views.create_reward, name = 'create_reward'),
     path('project/new', views.new_project, name="new_project"), 
     path('project/create', views.create_project, name="create_project"), 
-    path('project/<int:id>/edit', views.edit_project, name="edit_project"),
+    ## delete project
     # backing ADAM
     path('project/<int:project_id>/donate', views.new_donate, name="new_donate"), # Form
     path('project/<int:project_id>/donatecreate', views.create_donate, name="create_donate"), # Access the database, Validate
