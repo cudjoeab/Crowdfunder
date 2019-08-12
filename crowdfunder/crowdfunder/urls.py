@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.root), 
     path('home/', views.home_page, name="home_page"), 
+    path('already_donated/', views.already_donated, name='already_donated'),
     # search ABIGAIL
     path('search', views.search_project, name='search_project'),
     # registration SHAHEER

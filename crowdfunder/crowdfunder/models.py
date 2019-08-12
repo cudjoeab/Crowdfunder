@@ -30,15 +30,13 @@ class Project(models.Model):
         validators = [MinValueValidator(100)]
     )
     current_funds = models.CharField(max_length = 100, blank = True, null = True)
-
+ 
     
 
     def __str__(self):
         return f'{self.title} by {self.creator}'
 
-
-
-
+        
 class Comment(models.Model):
     message = models.TextField(
         validators=[MinLengthValidator(10), MaxLengthValidator(500)]
@@ -62,16 +60,16 @@ class Reward(models.Model):
 
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.minimum_donation} - {self.name}"
 
 
 class Donation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='donations_profile')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='donations_project')
     price_in_cents = models.IntegerField(
         validators=[MinValueValidator(100)], null=True
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='donations_profile')
     reward = models.ForeignKey(Reward, blank = True, null = True, on_delete=models.CASCADE, related_name='donations_reward')
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='donations_project')
 
     def __str__(self):
         # Changed so it displays the dollar price instead of cents
@@ -79,11 +77,13 @@ class Donation(models.Model):
 
     def price_in_dollars(self):  # Converts cents to dollars.
         return self.price_in_cents / 100
-
-    def total_donations(self, project_id):
+    
+    @classmethod
+    def total_donations(cls, project_id):
         return Donation.objects.filter(project = project_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
-
-    def total_donations_user(self, user_id):
+    
+    @classmethod
+    def total_donations_user(cls, user_id):
         return Donation.objects.filter(user = user_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
 
     def determine_reward(self, project_id):
@@ -93,4 +93,14 @@ class Donation(models.Model):
             if self.price_in_cents/100 >= rewards_list[i].minimum_donation:
                 temp_reward = rewards_list[i]
         return temp_reward
-
+    @classmethod
+    def check_donation(cls, project_id, user_id):
+        donations = Donation.objects.filter(project = project_id)
+        donation = None
+        for d in donations:
+            if d.user == user_id:
+                donation = d
+        if donation:
+            return True
+        else: 
+            return False
