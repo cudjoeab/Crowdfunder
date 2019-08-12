@@ -48,7 +48,7 @@
         {% endif %}
     {% endfor %}
     </ul>
-    <form action="{% url 'create_comment' project_id=project.pk %}" method="POST">
+    <form action="{% url 'create_comment' project_id=project.id %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="post"/>

@@ -141,7 +141,7 @@ def create_reward(request, project_id):
         new_reward = form.save(commit = False)
         new_reward.project = Project.objects.get(pk = project_id)
         new_reward.save()
-        return redirect(reverse('project_details', kwargs={'id': project_id}))
+        return redirect(reverse('project_details', kwargs={'project_id': project_id}))
     else:
         return render(request, 'new_reward.html', context)
 
@@ -166,7 +166,7 @@ def create_donate(request, project_id):  # User creating a new donation.
         project = Project.objects.get(pk = project_id)
         project.current_funds = new_donation.total_donations(project_id)
         project.save()
-        return redirect(reverse("project_details", kwargs={'id': project_id}))
+        return redirect(reverse("project_details", kwargs={'project_id': project_id}))
     else:  # Else sends user back to existing donation form.
         return render(request, "donate_form.html", {
             "project_id": project_id, "form": form
@@ -174,13 +174,15 @@ def create_donate(request, project_id):  # User creating a new donation.
 
 @login_required
 def create_comment(request, project_id):
-    project = Project.objets.get(pk=project_id)
+    project = Project.objects.get(pk=project_id)
     form = CommentForm(request.POST)
+    user = User.objects.get(id = request.user.pk)
     if form.is_valid():
         comment = form.save(commit=False)
         comment.project = project
+        comment.user = user
         comment.save()
-        return redirect(reverse("project_details", args=(project_id)))
+        return redirect(reverse("project_details", kwargs={'project_id':project_id}))
     return render(request, "project_details.html", {
     "project": project, "form": form
     } )
@@ -212,7 +214,7 @@ def update_comment(request, project_id, comment_id):
 def delete_comment(request, project_id, comment_id): 
     comment = get_object_or_404(Comment, pk=id, user=request.user.pk)
     comment.delete()
-    return redirect(reverse("project_details", kwargs={"id":project_id}))
+    return redirect(reverse("project_details", kwargs={"project_id":project_id}))
             
 
 
