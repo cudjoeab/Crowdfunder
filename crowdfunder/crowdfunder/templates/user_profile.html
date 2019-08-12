@@ -22,7 +22,7 @@
                 <a href='{% url "project_details" project.pk %}'>{{ project.project }}</a><br/>
                 {{ project.project.description }}<br/>
                 Donated: {{ project.price_in_cents }} pennies<br/>
-                Reward: {{ project.reward.yes }}
+                Reward: {{ project.reward }}
             </li>
         {% endfor %}
     </ul>
