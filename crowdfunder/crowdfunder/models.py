@@ -36,7 +36,7 @@ class Project(models.Model):
     def __str__(self):
         return f'{self.title} by {self.creator}'
 
-        
+
 class Comment(models.Model):
     message = models.TextField(
         validators=[MinLengthValidator(10), MaxLengthValidator(500)]
@@ -84,7 +84,12 @@ class Donation(models.Model):
     
     @classmethod
     def total_donations_user(cls, user_id):
-        return Donation.objects.filter(user = user_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
+        user_donations = Donation.objects.filter(user = user_id).aggregate(models.Sum('price_in_cents'))
+        # return user_donations
+        if user_donations['price_in_cents__sum'] != None:
+            return f'${user_donations["price_in_cents__sum"]/100}'
+        else:
+            return None
 
     def determine_reward(self, project_id):
         rewards_list = Reward.objects.filter(project = project_id).order_by('minimum_donation')

@@ -61,7 +61,7 @@ class LoginForm(Form):
     username = CharField(label="User Name", max_length=64)
     password = CharField(widget=PasswordInput())
 
-class ProfileForm(Form):
+class ProfileForm(ModelForm):
     class Meta: 
         model = Profile
         fields = ['first_name', 'last_name', 'email', 'description']

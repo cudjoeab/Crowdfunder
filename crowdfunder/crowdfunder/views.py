@@ -85,7 +85,8 @@ def signup_view (request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return HttpResponseRedirect('/home')
+            return redirect(reverse('new_profile', kwargs={'user_id': user.id}))
+            # return HttpResponseRedirect('/home')
     else:
         form = UserCreationForm()
     html_response = render(request, 'signup.html', {'form': form})
@@ -246,6 +247,7 @@ def all_users(request):
 
 def user_profile(request, user_id):
     user = User.objects.get(pk=user_id)
+    profile = Profile.objects.get(user = user)
     projects_owned = Project.objects.filter(creator=user)
     projects_supported = Donation.objects.filter(user=user)
     user_total_donation = Donation.total_donations_user(user_id)
@@ -254,11 +256,12 @@ def user_profile(request, user_id):
         'user': user,
         'projects_owned': projects_owned,
         'projects_supported': projects_supported,
-        'user_total_donation': user_total_donation
+        'user_total_donation': user_total_donation,
+        'profile': profile
     })
 
 @login_required
-def new_profile(request):
+def new_profile(request, user_id):
     form = ProfileForm()
     context = {"form": form}
     return render(request, "new_profile_form.html", context)
@@ -277,7 +280,8 @@ def create_profile(request):
 
 @login_required
 def edit_profile(request, user_id):
-    profile = get_object_or_404(Profile, pk=user_id, user=request.user.pk)
+    user = get_object_or_404(User, pk=user_id, id=request.user.pk)
+    profile = Profile.objects.get(user = user)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
@@ -290,13 +294,14 @@ def edit_profile(request, user_id):
             profile.email = email
             profile.description = description
             profile.save()
-            return HttpResponseRedirect('/users')
+            return redirect(reverse("home_page"))
     form = ProfileForm(request.POST)
     context = {'profile': profile, 'form': form}
     return HttpResponse(render(request, 'editprofile.html', context))
 
 @login_required
 def delete_profile(request, user_id):
-    profile = get_object_or_404(Profile, pk=user_id, user=request.user.pk)
-    profile.delete()
+    user = get_object_or_404(User, pk=user_id, id=request.user.pk)
+    logout(request)
+    user.delete()
     return redirect(reverse("home_page"))
