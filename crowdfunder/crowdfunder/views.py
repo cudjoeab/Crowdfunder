@@ -1,4 +1,3 @@
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -19,11 +18,30 @@ def home_page(request):
 
 def search_project(request): 
     query = request.GET['query']
-    search_results = Project.objects.filter(title=query, creator=query) # -- option 1-- 
-    # search_results = Project.objects.filter(title=query).filter(creator=query) -- option 2 -- 
+    # search_results = Project.objects.filter(title=query, creator=query) # -- option 1-- 
+    # search_results = Project.objects.filter(title=query).filter(creator=query)
+    # search_results = Project.objects.filter(title=query).filter(creator=query)
+    
+    
+    search_results = Project.objects.filter( # This works
+        title__contains=query
+        )
+
+    # search_results = Project.objects.filter(
+    #     title__contains=query
+    #     ).union(
+    #         Project.objects.filter(creator.username__contains=query)
+    #     )
+
+    # search_results = Project.objects.filter(
+    #     creator=query
+    #     )
+    
+    
+    
     return render(request,'search_results.html', {
         'projects': search_results,
-        'query': query,
+        'query': query
     })
 
 def project_details(request, id):
@@ -33,6 +51,8 @@ def project_details(request, id):
     })
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/home')
     if request.method == 'POST':
         form = LoginForm (request.POST)
         if form.is_valid():
@@ -54,6 +74,8 @@ def logout_view(request):
     return HttpResponseRedirect('/home')
 
 def signup_view (request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/home')
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -63,11 +85,12 @@ def signup_view (request):
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return HttpResponseRedirect('/home')
-        else:
-            form = UserCreationForm()
-        html_response = render(request, 'signup.html', {'form': form})
-        return HttpResponse(html_response)
+    else:
+        form = UserCreationForm()
+    html_response = render(request, 'signup.html', {'form': form})
+    return HttpResponse(html_response)
 
+@login_required
 def new_project(request):
     form = ProjectForm()
     context = {"form": form}
@@ -86,6 +109,25 @@ def create_project(request):
         return render(request, "new_project_form.html", context)
 
 @login_required
+def edit_project(request, id):
+    project = get_object_or_404(Project, pk=id, creator=request.user.pk)
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            start_date = form.cleaned_data.get('start_date')
+            end_date = form.cleaned_data.get('end_date')
+            description = form.cleaned_data.get('description')
+            project.title = title
+            project.start_date = start_date
+            project.end_date = end_date
+            project.description = description
+            project.save()
+            return HttpResponseRedirect('/home')
+    form = ProjectForm(request.POST)
+    context = {'project': project, 'form': form}
+    return HttpResponse(render(request, 'editproject.html', context))
+
 def new_reward(request, project_id):
     form = RewardForm()
     context = {"form": form, "project_id": project_id}
@@ -101,7 +143,6 @@ def create_reward(request, project_id):
         return redirect(reverse('project_details', kwargs={'id': project_id}))
     else:
         return render(request, 'new_reward.html', context)
-
 
 
 @login_required
@@ -172,5 +213,24 @@ def delete_comment(request, project_id, comment_id):
     comment.delete()
     return redirect(reverse("project_details", kwargs={"id":project_id}))
             
-    
-    
+
+
+def all_users(request):
+    all_users = User.objects.all
+    return render(request, 'all_users.html', {
+        'all_users': all_users 
+    })
+
+
+def user_profile(request, user_id):
+    user = User.objects.get(pk=user_id)
+    projects_owned = Project.objects.filter(creator=user)
+    projects_supported = Donation.objects.filter(user=user)
+
+    return render(request, 'user_profile.html', {
+        'user': user,
+        'projects_owned': projects_owned,
+        'projects_supported': projects_supported
+    })
+
+

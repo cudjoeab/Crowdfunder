@@ -12,20 +12,24 @@
             <a href='{% url "home_page" %}'> Crowdfunder logo </a>
         </h1>
         <nav>
-            <ul>
-                <li><a href='{% url "signup" %}'> sign up </a></li>
-                <li><a href='{% url "login" %}'> login </a></li>
-                <li><a href='#'> search</li>
-            </ul>
             <section class="search_bar">
                 <form action="{% url 'search_project'%}" method="get">
-                    <label for="search_project">
-                        <span>search:</span>
-                        <input type="search" id="search_project" name="query" value="{{ query }}"/>
+                    <label for="search-project">
+                        <span>Search:</span>
+                        <input type="search" id="search-project" name="query" value="{{ query }}"/>
                     </label>
-                    <input type="submit" value="search"/>
-                 </form>
+                    <input type="submit" value="Search"/>
+                </form>
             </section>
+            <ul>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'new_project' %}">Create Project</a></li>
+                {% else %}
+                    <li><a href="{% url 'signup' %}">Signup </a></li>
+                    <li><a href="{% url 'login' %}">Login </a></li>
+                {% endif %}
+            </ul>
         </nav>
     </header>
     <main>{% block content%} {% endblock %}</main>

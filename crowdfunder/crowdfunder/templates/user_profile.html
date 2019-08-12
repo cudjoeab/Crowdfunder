@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section>
+    <h2>{{ user.username }} profile</h2>
+
+    <p>Bio?</p>
+
+    <h3>Projects owned:</h3>
+    <ul>
+        {% for project in projects_owned %}
+            <li><a href="project/{{project.pk}}">{{ project.title }}</a><br/>
+            {{ project.description }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Projects supported:</h3>
+    <ul>
+        {% for project in projects_supported %}
+            <li>
+                <a href="project/{{project.project.pk}}">{{ project.project }}</a><br/>
+                {{ project.project.description }}<br/>
+                Donated: ${{ project.price_in_cents }}<br/>
+                Reward: {{ project.reward.description }}
+            </li>
+        {% endfor %}
+    </ul>
+    <p>Add Reward.name or project.project.name?</p>
+
+    <h3>Total ammount pledged:</h3>
+    <p>$...</p>
+</section>
+{% endblock %}
