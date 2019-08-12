@@ -98,6 +98,7 @@ class Donation(models.Model):
             if self.price_in_cents/100 >= rewards_list[i].minimum_donation:
                 temp_reward = rewards_list[i]
         return temp_reward
+    
     @classmethod
     def check_donation(cls, project_id, user_id):
         donations = Donation.objects.filter(project = project_id)
