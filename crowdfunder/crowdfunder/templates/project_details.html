@@ -10,6 +10,14 @@
     <h3>goal:{{ project.fund_goal }}  </h3> 
     <h3>total so far: {{ project.current_funds }}</h3>
 </section>
+
+{% if request.user.is_authenticated and request.user == project.creator %}
+    <section class="action_links">
+        <h3><a href="{% url 'edit_project' id=project.pk %}">Edit Project</a></h3>
+        <h3><a href="#">Delete Project</a></h3>
+    </section> 
+{% endif %}
+
 <section class="rewards">
     <h2> Rewards </h2>
     <article class= "reward_details"> 
@@ -17,9 +25,13 @@
         <p>{{ reward.description }}</p>
     </article>
 </section>
-<section class = donate_link>
-    <h3> <a href="{% url 'new_donate' project_id=project.pk %}" class="action_links">Donate</a></h3>
-</section> 
+
+{% if request.user.is_authenticated and request.user != project.creator %}
+    <section class = donate_link>
+        <h3> <a href="{% url 'new_donate' project_id=project.pk %}" class="action_links">Donate</a></h3>
+    </section> 
+{% endif %}
+
 <aside>
     <h3><a href="{% url 'home_page' %}">similar projects(for now this is a link to home</a></h3>
 </aside> 

@@ -19,11 +19,30 @@ def home_page(request):
 
 def search_project(request): 
     query = request.GET['query']
-    search_results = Project.objects.filter(title=query, creator=query) # -- option 1-- 
-    # search_results = Project.objects.filter(title=query).filter(creator=query) -- option 2 -- 
+    # search_results = Project.objects.filter(title=query, creator=query) # -- option 1-- 
+    # search_results = Project.objects.filter(title=query).filter(creator=query)
+    # search_results = Project.objects.filter(title=query).filter(creator=query)
+    
+    
+    search_results = Project.objects.filter( # This works
+        title__contains=query
+        )
+
+    # search_results = Project.objects.filter(
+    #     title__contains=query
+    #     ).union(
+    #         Project.objects.filter(creator.username__contains=query)
+    #     )
+
+    # search_results = Project.objects.filter(
+    #     creator=query
+    #     )
+    
+    
+    
     return render(request,'search_results.html', {
         'projects': search_results,
-        'query': query,
+        'query': query
     })
 
 def project_details(request, id):
