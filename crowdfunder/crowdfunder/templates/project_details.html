@@ -49,7 +49,7 @@
                 <a href='{% url "user_profile" comment.user.pk %}'>{{ comment.user }}</a>
             </h6>
             <p>{{ comment.message }}</p>        
-            {%if request.user.is_authenticated %}
+            {% if request.user.is_authenticated and request.user == comment.user %}
                 <p>
                     <a href= "{% url 'edit_comment' project_id=project.pk comment_id=comment.id %}"class="actionlinks">edit</a>
                     <a href= "{% url 'delete_comment' project_id=project.pk comment_id=comment.id %}" class="actionlinks">delete</a>

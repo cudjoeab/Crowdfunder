@@ -207,27 +207,15 @@ def create_comment(request, project_id):
     comment_form = CommentForm(request.POST)
     user = User.objects.get(id = request.user.pk)
     if comment_form.is_valid():
-        comment = comment_form.save(commit=False)
-        comment.project = project
-        comment.user = user
-        comment.save()
+        new_comment = comment_form.save(commit=False)
+        new_comment.project = project
+        new_comment.user = user
+        new_comment.save()
         return redirect(reverse("project_details", kwargs={'project_id':project_id}))
     return render(request, "project_details.html", {
         "project": project, 
         'comment_form': comment_form
     } )
-
-# @login_required
-# def edit_comment(request, project_id, comment_id):
-#     project = get_object_or_404(Project, pk=project_id, user=request.user.pk)
-#     comment = Comment.objects.get(pk=comment_id)
-#     comment.product_id = comment_id
-#     comment_form = CommentForm(instance=comment)
-#     return render(request, "edit_comment_form.html", {
-#         "comment": comment,
-#         'comment_form': comment_form,
-#         "project": project
-#     })
 
 @login_required
 def edit_comment(request, project_id, comment_id):

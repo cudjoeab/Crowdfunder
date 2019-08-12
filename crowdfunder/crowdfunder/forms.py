@@ -61,15 +61,15 @@ class LoginForm(Form):
     username = CharField(label="User Name", max_length=64)
     password = CharField(widget=PasswordInput())
 
-<<<<<<< HEAD
 
 class UpdateForm(ModelForm):
     class Meta:
         model = Update
         fields = ['message']
-=======
+
+        
 class ProfileForm(ModelForm):
     class Meta: 
         model = Profile
         fields = ['first_name', 'last_name', 'email', 'description']
->>>>>>> master
+
