@@ -20,10 +20,12 @@
 
 <section class="rewards">
     <h2> Rewards </h2>
-    <a href="{% url 'new_reward' project_id=project.pk %}">Add New Reward</a>
+    {% if request.user.is_authenticated and request.user == project.creator %}
+        <a href="{% url 'new_reward' project_id=project.pk %}">Add New Reward</a>
+    {% endif %}
     <article class= "reward_details"> 
     {% for reward in rewards %}
-        <h3>{{ reward.name }}</h3>
+        <h3>{{ reward.name }} - {{ reward.minimum_donation }}</h3>
         <p>{{ reward.description }}</p>
     {% endfor %}
     </article>

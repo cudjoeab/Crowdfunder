@@ -129,13 +129,16 @@ def edit_project(request, project_id):
     context = {'project': project, 'form': form}
     return HttpResponse(render(request, 'editproject.html', context))
 
+@login_required
 def new_reward(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, creator=request.user.pk)
     form = RewardForm()
     context = {"form": form, "project_id": project_id}
     return render(request, "new_reward.html", context)
 
-# @login_required
+@login_required
 def create_reward(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, creator=request.user.pk)
     form = RewardForm(request.POST)
     if form.is_valid():
         new_reward = form.save(commit = False)
@@ -160,17 +163,23 @@ def create_donate(request, project_id):  # User creating a new donation.
     if form.is_valid():
         new_donation = form.save(commit=False)
         new_donation.user = request.user
-        new_donation.project = Project.objects.get(pk = project_id)
-        new_donation.reward = new_donation.determine_reward(project_id)
-        new_donation.save()
-        project = Project.objects.get(pk = project_id)
-        project.current_funds = new_donation.total_donations(project_id)
-        project.save()
-        return redirect(reverse("project_details", kwargs={'project_id': project_id}))
+        if new_donation.check_donation(project_id, new_donation.user):
+            return redirect(reverse('already_donated'))
+        else:
+            new_donation.project = Project.objects.get(pk = project_id)
+            new_donation.reward = new_donation.determine_reward(project_id)
+            new_donation.save()
+            project = Project.objects.get(pk = project_id)
+            project.current_funds = Donation.total_donations(project_id)
+            project.save()
+            return redirect(reverse("project_details", kwargs={'project_id': project_id}))
     else:  # Else sends user back to existing donation form.
         return render(request, "donate_form.html", {
             "project_id": project_id, "form": form
         })
+
+def already_donated(request):
+    return render(request, 'already_donated.html')
 
 @login_required
 def create_comment(request, project_id):

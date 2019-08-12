@@ -66,8 +66,9 @@ class Donation(models.Model):
 
     def price_in_dollars(self):  # Converts cents to dollars.
         return self.price_in_cents / 100
-
-    def total_donations(self, project_id):
+    
+    @classmethod
+    def total_donations(cls, project_id):
         return Donation.objects.filter(project = project_id).aggregate(models.Sum('price_in_cents'))['price_in_cents__sum']/100
 
     def determine_reward(self, project_id):
@@ -77,4 +78,14 @@ class Donation(models.Model):
             if self.price_in_cents/100 >= rewards_list[i].minimum_donation:
                 temp_reward = rewards_list[i]
         return temp_reward
-
+    @classmethod
+    def check_donation(cls, project_id, user_id):
+        donations = Donation.objects.filter(project = project_id)
+        donation = None
+        for d in donations:
+            if d.user == user_id:
+                donation = d
+        if donation:
+            return True
+        else: 
+            return False
