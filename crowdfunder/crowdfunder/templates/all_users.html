@@ -3,11 +3,10 @@
 {% block content %}
 
 <section>
-    <h2>All existing projects:</h2>
-
+    <h2>All users with existing projects:</h2>
     <ul>
-        {% for user in all_users %}
-            <li><a href="{% url 'user_profile' user.pk %}">{{ user.username }}</a></li>
+        {% for creator_id, creator_name in creator_list.items %}
+            <li><a href="{% url 'user_profile' creator_id %}">{{ creator_name }}</a></li>
         {% endfor %}
     </ul>
 </section>
