@@ -8,7 +8,6 @@ from crowdfunder.models import *
 from crowdfunder.forms import *
 import pdb
 
-
 def root(request):
     return HttpResponseRedirect("/home")
 
@@ -172,6 +171,49 @@ def create_donate(request, project_id):  # User creating a new donation.
             "project_id": project_id, "form": form
         })
 
+@login_required
+def create_comment(request, project_id):
+    project = Project.objets.get(pk=project_id)
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.project = project
+        comment.save()
+        return redirect(reverse("project_details", args=(project_id)))
+    return render(request, "project_details.html", {
+    "project": project, "form": form
+    } )
+
+@login_required
+def edit_comment(request, project_id, comment_id):
+    project = get_object_or_404(Project, pk=id, user=request.user.pk)
+    comment = Comment.objects.get(pk=comment_id)
+    comment.product_id = comment_id
+    form = CommentForm(instance=comment)
+    return render(request, "edit_comment_form.html", {
+    "comment": comment,
+    "form": form,
+    "project": project})
+
+@login_required
+def update_comment(request, project_id, comment_id):
+    project =  get_object_or_404(Project, pk=id, user=request.user.pk)
+    comment = Comment.objects.get(pk=comment_id)
+    form = CommentForm(request.POST, instance=comment)
+    if form.is_valid():
+        form.save()
+        return redirect(reverse("project_details"))
+    else:
+        context = {"comment": comment, "form": form, "project": project}
+        return render(request, "edit_comment_form.html", context)
+
+@login_required
+def delete_comment(request, project_id, comment_id): 
+    comment = get_object_or_404(Comment, pk=id, user=request.user.pk)
+    comment.delete()
+    return redirect(reverse("project_details", kwargs={"id":project_id}))
+            
+
 
 def all_users(request):
     all_users = User.objects.all
@@ -190,4 +232,5 @@ def user_profile(request, user_id):
         'projects_owned': projects_owned,
         'projects_supported': projects_supported
     })
+
 
