@@ -245,4 +245,28 @@ def user_profile(request, user_id):
         'user_total_donation': user_total_donation
     })
 
+@login_required
+def edit_profile(request, user_id):
+    profile = get_object_or_404(Profilex, pk=user_id, user=request.user.pk)
+    if request.method == 'POST':
+        form = ProfilexForm(request.POST)
+        if form.is_valid():
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            email = form.cleaned_data.get('email')
+            description = form.cleaned_data.get('description')
+            profilex.first_name = first_name
+            profilex.last_name = last_name
+            profilex.email = email
+            profilex.description = description
+            profilex.save()
+            return HttpResponseRedirect(f'/user/{user_id}')
+    form = ProfilexForm(request.POST)
+    context = {'profilex': profilex, 'form': form}
+    return HttpResponse(render(request, 'editprofile.html', context))
 
+@login_required
+def delete_profile(request, user_id):
+    profilex = get_object_or_404(Profilex, pk=user_id, user=request.user.pk)
+    profilex.delete()
+    return redirect(reverse("home_page"))

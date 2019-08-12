@@ -48,5 +48,6 @@ urlpatterns = [
 
     path('users', views.all_users, name="all_users"), # A list of all users.
     path('user/<int:user_id>', views.user_profile, name="user_profile"), # User profile page
-    
+    path('profile/<int:user_id>/edit', views.edit_profile, name='edit_profile'),
+    path('profile/<int:user_id>/delete', views.delete_profile, name='delete_profile'),
 ]

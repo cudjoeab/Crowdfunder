@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from crowdfunder.models import Project, Comment, Reward, Donation
+from crowdfunder.models import Project, Comment, Reward, Donation, Profilex
 from django.forms import CharField, PasswordInput, Form
 
 class ProjectForm(ModelForm):
@@ -29,3 +29,8 @@ class DonationForm(ModelForm):
 class LoginForm(Form):
     username = CharField(label="User Name", max_length=64)
     password = CharField(widget=PasswordInput())
+
+class ProfilexForm(Form):
+    class Meta: 
+        model = Profilex
+        fields = ['first_name', 'last_name', 'email', 'description']
