@@ -47,8 +47,21 @@ def search_project(request):
 def project_details(request, project_id):
     project = Project.objects.get(pk=project_id)
     rewards = Reward.objects.filter(project = project)
+    all_comments = Comment.objects.filter(project=project_id)
+    update_form = UpdateForm()
+    comment_form = CommentForm()
+
+
+    
+
+    # breakpoint()
+
     return render(request, "project_details.html", {
-    'project': project, 'rewards': rewards
+        'project': project, 
+        'rewards': rewards, 
+        'all_comments': all_comments, 
+        'update_form': update_form,
+        'comment_form': comment_form
     })
 
 def login_view(request):
@@ -191,46 +204,88 @@ def already_donated(request):
 @login_required
 def create_comment(request, project_id):
     project = Project.objects.get(pk=project_id)
-    form = CommentForm(request.POST)
+    comment_form = CommentForm(request.POST)
     user = User.objects.get(id = request.user.pk)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.project = project
-        comment.user = user
-        comment.save()
+    if comment_form.is_valid():
+        new_comment = comment_form.save(commit=False)
+        new_comment.project = project
+        new_comment.user = user
+        new_comment.save()
         return redirect(reverse("project_details", kwargs={'project_id':project_id}))
     return render(request, "project_details.html", {
-    "project": project, "form": form
+        "project": project, 
+        'comment_form': comment_form
     } )
 
 @login_required
 def edit_comment(request, project_id, comment_id):
-    project = get_object_or_404(Project, pk=id, user=request.user.pk)
-    comment = Comment.objects.get(pk=comment_id)
-    comment.product_id = comment_id
-    form = CommentForm(instance=comment)
-    return render(request, "edit_comment_form.html", {
-    "comment": comment,
-    "form": form,
-    "project": project})
+    comment = get_object_or_404(Comment, pk=comment_id, user=request.user.pk) 
+    comment_form = CommentForm(request.POST)
+    project = Project.objects.get(pk=project_id)
+    user = User.objects.get(id = request.user.pk)
 
-@login_required
-def update_comment(request, project_id, comment_id):
-    project =  get_object_or_404(Project, pk=id, user=request.user.pk)
-    comment = Comment.objects.get(pk=comment_id)
-    form = CommentForm(request.POST, instance=comment)
-    if form.is_valid():
-        form.save()
-        return redirect(reverse("project_details"))
+    if comment_form.is_valid():
+        edit_comment = comment_form.save(commit=False)
+        edit_comment.id = comment_id
+        edit_comment.user = request.user
+        edit_comment.project = project
+        edit_comment.save()
+        return redirect(reverse('project_details', kwargs={'project_id':project_id}))
     else:
-        context = {"comment": comment, "form": form, "project": project}
-        return render(request, "edit_comment_form.html", context)
+        return render(request, 'edit_comment_form.html', {
+            'comment': comment,
+            'comment_id': comment_id,
+            "project": project, 
+            'comment_form': CommentForm(instance=comment)
+        })
+
+# @login_required
+# def update_comment(request, project_id, comment_id):
+#     project = get_object_or_404(Project, pk=project_id, user=request.user.pk)
+#     comment = Comment.objects.get(pk=comment_id)
+#     comment_form = CommentForm(request.POST, instance=comment)
+#     if comment_form.is_valid():
+#         comment_form.save()
+#         return redirect(reverse("project_details", kwargs={"project_id":project_id}))
+#     else:
+#         return render(request, "edit_comment_form.html", {
+#             "comment": comment, 
+#             "comment_form": comment_form, 
+#             "project": project
+#             })
 
 @login_required
-def delete_comment(request, project_id, comment_id): 
-    comment = get_object_or_404(Comment, pk=id, user=request.user.pk)
+def delete_comment(request, project_id, comment_id):   
+    comment = get_object_or_404(Comment, pk=comment_id, user=request.user.pk)
     comment.delete()
     return redirect(reverse("project_details", kwargs={"project_id":project_id}))
+
+
+@login_required
+def create_update(request, project_id):  # A project-owner is trying to post an update.
+    update = get_object_or_404(Project, pk=project_id, creator=request.user.pk)
+    project = Project.objects.get(pk=project_id)
+    rewards = Reward.objects.filter(project = project)
+    user = User.objects.get(id = request.user.pk)
+    update_form = UpdateForm()
+    comment_form = CommentForm()
+
+    if request.method == 'POST':
+        update_form = UpdateForm(request.POST)
+        
+        if update_form.is_valid():
+            update = update_form.save(commit=False)
+            update.project = project
+            update.user = user
+            update.save()
+
+            return redirect(reverse("project_details", kwargs={'project_id':project_id}))
+    return render(request, "project_details.html", {
+        'project': project, 
+        'rewards': rewards, 
+        'update_form': update_form,
+        'comment_form': comment_form
+    })
 
 
 def all_users(request):

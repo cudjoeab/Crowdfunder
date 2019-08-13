@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>edit your comment on {{ project.title }}</h1>
+<h1>Edit your Comment on {{ project.title }}</h1>
 
-<form method="POST" action="{% url 'update_comment' project_id=project.pk comment_id=comment.pk %}" >
+<form method="POST" action="{% url 'edit_comment' project_id=project.pk comment_id=comment.id %}" >
     {% csrf_token %}
     <table>
-        {{ form.as_table }}
+        {{ comment_form.as_table }}
     </table>
 
     <input type="submit" value="Save comment" />
