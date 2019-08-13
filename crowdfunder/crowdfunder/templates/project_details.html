@@ -1,69 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<section class="project_details" >
+<section class="project_page">
+    <section class="project_details" >
     <h1>{{ project.title }} </h1>
     <h3>creator: <a href='{% url "user_profile" project.creator.pk %}'>{{ project.creator }}</a></h3>
     <h3>timeline: {{ project.start_date }} - {{ project.end_date }} <br></h3>
     <p>description: {{ project.description }}</p>
     <h3>goal: {{ project.fund_goal }}  </h3> 
     <h3>total so far: {{ project.current_funds }}</h3>
-</section>
+    </section>
 
-{% if request.user.is_authenticated and request.user == project.creator %}
+    {% if request.user.is_authenticated and request.user == project.creator %}
     <section class="action_links">
         <h3><a href="{% url 'edit_project' project_id=project.pk %}">Edit Project</a></h3>
         <h3><a href="{% url 'delete_project' project_id=project.pk %}">Delete Project</a></h3>
     </section> 
-{% endif %}
-
-<section class="rewards">
-    <h2> Rewards </h2>
-    {% if request.user.is_authenticated and request.user == project.creator %}
-        <a href="{% url 'new_reward' project_id=project.pk %}">Add New Reward</a>
     {% endif %}
-    <article class= "reward_details"> 
-    {% for reward in rewards %}
-        <h3>{{ reward.name }} - {{ reward.minimum_donation }}</h3>
-        <p>{{ reward.description }}</p>
-    {% endfor %}
-    </article>
-</section>
-               
-<section class="comments">
-    <h3>Comments:</h3>
-    <ul>
-    {% for comment in picture.comments.all  %}
-        <li class="single_comment">
-            <h6>
-                <a href='{% url "user_profile" comment.creator.pk %}'>{{ comment.user }}</a>
-            </h6>
-            <p>{{ comment.message }}</p>
-        </li>
-        {%if request.user.is_authenticated %}
-        <li>
-            <a href= "{% url 'edit_comment' id=comment.pk %}"class="actionlinks">edit</a>
-        </li> 
-        <li>
-            <a href= "{% url 'delete_comment' id=comment.pk %}"class="actionlinks">delete</a>
-        </li>
-    
-        {% endif %}
-    {% endfor %}
-    </ul>
-    <form action="{% url 'create_comment' project_id=project.id %}" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="post"/>
-    </form>  
-</section>
 
-{% if request.user.is_authenticated and request.user != project.creator %}
+    <section class="rewards">
+        <h2> Rewards </h2>
+        {% if request.user.is_authenticated and request.user == project.creator %}
+            <a href="{% url 'new_reward' project_id=project.pk %}">Add New Reward</a>
+        {% endif %}
+
+        
+        <article class= "reward_details"> 
+        {% for reward in rewards %}
+            <h3>{{ reward.name }} - {{ reward.minimum_donation }}</h3>
+            <p>{{ reward.description }}</p>
+        {% endfor %}
+        </article>
+    </section>
+                
+    <section class="comments">
+        <h3>Comments:</h3>
+        <ul>
+        {% for comment in picture.comments.all  %}
+            <li class="single_comment">
+                <h6>
+                    <a href='{% url "user_profile" comment.creator.pk %}'>{{ comment.user }}</a>
+                </h6>
+                <p>{{ comment.message }}</p>
+            </li>
+            {%if request.user.is_authenticated %}
+            <li>
+                <a href= "{% url 'edit_comment' id=comment.pk %}"class="actionlinks">edit</a>
+            </li> 
+            <li>
+                <a href= "{% url 'delete_comment' id=comment.pk %}"class="actionlinks">delete</a>
+            </li>
+
+            {% endif %}
+        {% endfor %}
+        </ul>
+        <form action="{% url 'create_comment' project_id=project.id %}" method="POST" class="form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="post"/>
+        </form>  
+    </section>
+
+    {% if request.user.is_authenticated and request.user != project.creator %}
     <section class = donate_link>
         <h3> <a href="{% url 'new_donate' project_id=project.pk %}" class="action_links">Donate</a></h3>
     </section> 
-{% endif %}
-
-
+    {% endif %}
+</section>
 {% endblock %}

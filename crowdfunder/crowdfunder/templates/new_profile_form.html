@@ -2,11 +2,13 @@
 
 {% block content %}
 
+<section class="form">
 <h2> Create a new profile </h2>
 <form action="{% url 'create_profile' %}" method= 'POST'>
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Create profile">
 </form>
+</section>
 
 {% endblock %}

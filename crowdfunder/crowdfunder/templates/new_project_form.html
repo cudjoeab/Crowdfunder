@@ -2,11 +2,13 @@
 
 {% block content %}
 
+<section class= "form">
 <h2> Submit a new project </h2>
-<form action="{% url 'create_project' %}" method= 'POST'>
+<form action="{% url 'create_project' %}" method= 'POST'> 
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Get funded!">
 </form>
+</section>
 
 {% endblock %}
