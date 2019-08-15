@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section class="form">
+
 <h1>{{ project.title }} </h1>
 <h2> Make a donation </h2>
 <form action="{% url 'create_donate' project_id %}" method= 'POST'>
@@ -11,6 +11,6 @@
     <input type="submit" value="Make a Donation">
     <input type="reset" name="reset" value="Reset">
 </form>
-</section>
+
 
 {% endblock %}

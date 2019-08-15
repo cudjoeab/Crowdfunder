@@ -2,7 +2,7 @@
 {% block content %}
 <h3>Editing {{ profile.first_name }} {{ profile.last_name }}</h3>
 
-    <form action="{% url 'edit_profile' user.id %}" method="POST" class="form">
+    <form action="{% url 'edit_profile' user.id %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Edit Profile">
