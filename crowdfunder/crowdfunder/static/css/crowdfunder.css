@@ -52,6 +52,9 @@ body {
     margin: 0 auto; 
     /* background-image: url("images/money_falling.png"); */
     background-color: rgba(144, 170, 134, 0.8);
+    background-image: url('../images/https:_blogs-images.forbes.com_ofx_files_2018_09_OFX3-iStock-492595743-1200x800.jpg');
+    background-size: cover;
+    /* background-repeat: repeat; */
 }
 
 header {
@@ -197,18 +200,20 @@ footer {
     width: 100%;
     height: 100%;
     position: absolute;
-    background-image: url('../images/https:_blogs-images.forbes.com_ofx_files_2018_09_OFX3-iStock-492595743-1200x800.jpg');
+    /* background-image: url('../images/https:_blogs-images.forbes.com_ofx_files_2018_09_OFX3-iStock-492595743-1200x800.jpg'); */
     background-position: center;
     background-repeat: repeat;
     background-size: cover;
+
+    /* background: blue url('../images/https:_blogs-images.forbes.com_ofx_files_2018_09_OFX3-iStock-492595743-1200x800.jpg') cover;  */
     z-index: -99;
 }
 
-.background:before {
+/* .background:before {
     width:100%;
     height:100%;
     content:" ";
     display: block;
     z-index:0;
     background-color: rgba(144, 170, 134, 0.8);
-}
+} */
