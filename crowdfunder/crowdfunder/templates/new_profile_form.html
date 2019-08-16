@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    - Create a New Profile
+{% endblock %}
+
 {% block content %}
-
-<h2> Create a new profile </h2>
-<form action="{% url 'create_profile' %}" method= 'POST'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Create profile">
-</form>
-
-
+    <section>
+        <h2> Create a new profile </h2>
+        <form action="{% url 'create_profile' %}" method='POST'>
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Create profile">
+        </form>
+    </section>
 {% endblock %}

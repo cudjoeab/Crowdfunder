@@ -6,28 +6,51 @@
 
 /* links  */
 a {
-    color: black; 
+    color: #025928; 
     text-decoration: none; 
 }
 
-a:hover {
-    color: white;   
-}
-
 a:visited{
-    color: rgba(0, 0, 1, 1);
-}
-/* base.html */
-body{
-    margin: 0 auto; 
-    background-color: rgba(144, 170, 134, 0.8);
-    background-image: url("images/money_falling.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;  
+    color: #248e38;
 }
 
-.main-block {
+a:hover {
+    color: #d96704; 
+}
+
+a:active {
+    color: #85bf4b;
+}
+
+/* base.html */
+body {
+    margin: 0 auto; 
+    /* background-image: url("images/money_falling.png"); */
+    background-color: rgba(144, 170, 134, 0.8);
+}
+
+.background {
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: url('../images/https:_blogs-images.forbes.com_ofx_files_2018_09_OFX3-iStock-492595743-1200x800.jpg');
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    z-index: -99;
+}
+
+.background:before {
+    width:100%;
+    height:100%;
+    content:" ";
+    display: block;
+    z-index:0;
+    background-color: rgba(144, 170, 134, 0.8);
+}
+
+main {
     text-align: center;
 }
 
@@ -44,8 +67,8 @@ img {
     height: 50px; 
     padding: 10px;
     padding: 0px; 
-
 }
+
 h2 {
     margin: 0; 
     padding: 10px; 
@@ -53,7 +76,7 @@ h2 {
     position: relative;
     left: 0; 
     padding-left: 0px; 
- }
+}
 
 header {
     background-color:  rgba(130, 76, 113, 1); 
@@ -67,7 +90,8 @@ header {
 .dropdown {
     position: relative;
     display: inline-block; 
-    height: 50px;  
+    /* height: 50px;   */
+    height: 100px;
 }
 
 .navbar-content {
@@ -91,21 +115,23 @@ header {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1em; 
-    margin: 0 20px; 
-    
+    /* margin: 0 20px;  */
 }
+
 .project_preview {
     font-size: 20px; 
     list-style-type: none;
     padding: 20px; 
     text-align: center; 
-    background: rgba(144, 170, 134, 0.8);
+    /* background: rgba(144, 170, 134, 0.8); */
+    background: #66e281;
     line-height: 2.0; 
+    background-color: 
 }
+
 .project_page {
-    background-color: rgba(144, 170, 134, 0.8);
-    max-width: 80%;
-    margin: 30px auto; 
+    /* background-color: rgba(144, 170, 134, 0.8); */
+
 }
 
 .project_details {
@@ -113,7 +139,8 @@ header {
     padding: 20px; 
     margin-bottom: 0; 
     
-} 
+}
+
 .action_links {
     background-color: rgba(144, 170, 134, 0.8);    
 }
@@ -137,9 +164,29 @@ footer {
     width: 100%; 
 }
 
-.form {
+form {
     background-color: rgba(220, 204, 163, 0.8);
     margin: 20px auto;
-    max-width: 60%; 
+    padding: 0 20px 20px 20px;
+    max-width: 60%;
+    text-align: left;
+}
 
+form table {
+    margin: 0 auto;
+}
+
+main section {
+    margin: 30px auto;
+    padding: 20px 20px;
+    max-width: 80%;
+    background-color: rgba(255,255,255,.5);
+}
+
+table td {
+    text-align: left;
+}
+
+.header-title {
+    color: #000;
 }
