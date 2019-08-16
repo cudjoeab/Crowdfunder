@@ -6,14 +6,12 @@
 
 {% block content %}
     <section>
-        <h1>Edit your comment on {{ project.title }}</h1>
-
+        <h2>Edit your comment on {{ project.title }}</h2>
         <form method="POST" action="{% url 'update_comment' project_id=project.pk comment_id=comment.pk %}">
             {% csrf_token %}
             <table>
                 {{ form.as_table }}
             </table>
-
         <input type="submit" value="Save comment" />
     </section>
 {% endblock %}

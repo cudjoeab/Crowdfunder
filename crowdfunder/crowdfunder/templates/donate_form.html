@@ -6,11 +6,13 @@
 
 {% block content %}
     <section>
-        <h1>{{ project.title }} </h1>
-        <h2>Make a Donation</h2>
+        <h2>{{ project.title }} </h2>
+        <h3>Make a Donation</h3>
         <form action="{% url 'create_donate' project_id %}" method= 'POST'>
             {% csrf_token %}
-            {{ form.as_p }}
+            <table>
+                {{ form.as_table }}
+            </table>
             <input type="submit" value="Make a Donation">
             <input type="reset" name="reset" value="Reset">
         </form>

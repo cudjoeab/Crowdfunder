@@ -6,8 +6,8 @@
 
 {% block content %}
     <section class="project_page">
-        <section class="project_details" >
-        <h1>{{ project.title }}</h1>
+        <section class="subsection" >
+        <h2>{{ project.title }}</h2>
         <h3>creator: <a href='{% url "user_profile" project.creator.pk %}'>{{ project.creator }}</a></h3>
         <h3>timeline: {{ project.start_date }} - {{ project.end_date }} <br></h3>
         <p>description: {{ project.description }}</p>
@@ -16,20 +16,19 @@
         </section>
 
         {% if request.user.is_authenticated and request.user == project.creator %}
-        <section class="action_links">
+        <section class="subsection">
             <h3><a href="{% url 'edit_project' project_id=project.pk %}">Edit Project</a></h3>
             <h3><a href="{% url 'delete_project' project_id=project.pk %}">Delete Project</a></h3>
         </section> 
         {% endif %}
 
-        <section class="rewards">
+        <section class="subsection">
             <h2> Rewards </h2>
             {% if request.user.is_authenticated and request.user == project.creator %}
                 <a href="{% url 'new_reward' project_id=project.pk %}">Add New Reward</a>
             {% endif %}
 
-            
-            <article class= "reward_details"> 
+            <article class= "subsection"> 
             {% for reward in rewards %}
                 <h3>{{ reward.name }} - {{ reward.minimum_donation }}</h3>
                 <p>{{ reward.description }}</p>
@@ -37,7 +36,7 @@
             </article>
         </section>
                     
-        <section class="comments">
+        <section class="subsection">
             <h3>Comments:</h3>
             <ul>
             {% for comment in picture.comments.all  %}
@@ -54,7 +53,6 @@
                 <li>
                     <a href= "{% url 'delete_comment' id=comment.pk %}"class="actionlinks">delete</a>
                 </li>
-
                 {% endif %}
             {% endfor %}
             </ul>
@@ -66,7 +64,7 @@
         </section>
 
         {% if request.user.is_authenticated and request.user != project.creator %}
-        <section class = donate_link>
+        <section class = subsection>
             <h3> <a href="{% url 'new_donate' project_id=project.pk %}" class="action_links">Donate</a></h3>
         </section> 
         {% endif %}

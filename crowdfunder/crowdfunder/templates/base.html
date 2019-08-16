@@ -41,7 +41,7 @@
                     <a href="{% url 'all_users' %}">All Users</a>
                 </li>
                 <li class="search_bar">
-                <form action="{% url 'search_project'%}" method="get">
+                <form action="{% url 'search_project'%}" method="get" class='login_form'>
                     <label for="search-project">
                         <span>Search:</span>
                         <input type="search" id="search-project" name="query" value="{{ query }}"/>
