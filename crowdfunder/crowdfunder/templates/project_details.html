@@ -1,78 +1,72 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    - {{ project.title }}
+{% endblock %}
+
 {% block content %}
+    <section class="project_page">
+        <section class="subsection" >
+        <h2>{{ project.title }}</h2>
+        <h3>creator: <a href='{% url "user_profile" project.creator.pk %}'>{{ project.creator }}</a></h3>
+        <h3>timeline: {{ project.start_date }} - {{ project.end_date }} <br></h3>
+        <p>description: {{ project.description }}</p>
+        <h3>goal: {{ project.fund_goal }}  </h3> 
+        <h3>total so far: {{ project.current_funds }}</h3>
+        </section>
 
-<section class="project_details" >
-    <h1>{{ project.title }} </h1>
-    <h3>creator: <a href='{% url "user_profile" project.creator.pk %}'>{{ project.creator }}</a></h3>
-    <h3>timeline: {{ project.start_date }} - {{ project.end_date }} <br></h3>
-    <p>description: {{ project.description }}</p>
-    <h3>goal:{{ project.fund_goal }}  </h3> 
-    <h3>total so far: {{ project.current_funds }}</h3>
-</section>
-
-{% if request.user.is_authenticated and request.user == project.creator %}
-    <section class="action_links">
-        <h3><a href="{% url 'edit_project' project_id=project.pk %}">Edit Project</a></h3>
-        <h3><a href="{% url 'delete_project' project_id=project.pk %}">Delete Project</a></h3>
-        <h3><a href="{% url 'create_update' project_id=project.pk %}">Post an Update</a></h3>
-    
-        <h3>Post an Update on your Project:</h3>
-        <form action="{% url 'create_update' project_id=project.id %}" method="POST">
-            {% csrf_token %}
-            {{ update_form.as_p }}
-            <input type="submit" value="post"/>
-        </form>  
-    </section> 
-{% endif %}
-
-<section class="rewards">
-    <h2> Rewards </h2>
-    {% if request.user.is_authenticated and request.user == project.creator %}
-        <a href="{% url 'new_reward' project_id=project.pk %}">Add New Reward</a>
-    {% endif %}
-    <article class= "reward_details"> 
-    {% for reward in rewards %}
-        <h3>{{ reward.name }} - {{ reward.minimum_donation }}</h3>
-        <p>{{ reward.description }}</p>
-    {% endfor %}
-    </article>
-</section>
-               
-<section class="comments">
-    <h3>Comments:</h3>
-    here?
-    <ul>
-    {% for comment in all_comments  %}
-        <li class="single_comment">
-            <h6>
-                <a href='{% url "user_profile" comment.user.pk %}'>{{ comment.user }}</a>
-            </h6>
-            <p>{{ comment.message }}</p>        
-            {% if request.user.is_authenticated and request.user == comment.user %}
-                <p>
-                    <a href= "{% url 'edit_comment' project_id=project.pk comment_id=comment.id %}"class="actionlinks">edit</a>
-                    <a href= "{% url 'delete_comment' project_id=project.pk comment_id=comment.id %}" class="actionlinks">delete</a>
-                </p>
-            </li>
+        {% if request.user.is_authenticated and request.user == project.creator %}
+        <section class="subsection">
+            <h3><a href="{% url 'edit_project' project_id=project.pk %}">Edit Project</a></h3>
+            <h3><a href="{% url 'delete_project' project_id=project.pk %}">Delete Project</a></h3>
+        </section> 
         {% endif %}
-    {% endfor %}
-    </ul>
-    <form action="{% url 'create_comment' project_id=project.id %}" method="POST">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <input type="submit" value="post"/>
-    </form>  
-</section>
 
-{% if request.user.is_authenticated and request.user != project.creator %}
-    <section class = donate_link>
-        <h3> <a href="{% url 'new_donate' project_id=project.pk %}" class="action_links">Donate</a></h3>
-    </section> 
-{% endif %}
+        <section class="subsection">
+            <h2> Rewards </h2>
+            {% if request.user.is_authenticated and request.user == project.creator %}
+                <a href="{% url 'new_reward' project_id=project.pk %}">Add New Reward</a>
+            {% endif %}
 
-<aside>
-    <h3><a href="{% url 'home_page' %}">similar projects(for now this is a link to home</a></h3>
-</aside> 
+            <article class= "subsection"> 
+            {% for reward in rewards %}
+                <h3>{{ reward.name }} - {{ reward.minimum_donation }}</h3>
+                <p>{{ reward.description }}</p>
+            {% endfor %}
+            </article>
+        </section>
+                    
+        <section class="subsection">
+            <h3>Comments:</h3>
+            <ul>
+            {% for comment in picture.comments.all  %}
+                <li class="single_comment">
+                    <h6>
+                        <a href='{% url "user_profile" comment.creator.pk %}'>{{ comment.user }}</a>
+                    </h6>
+                    <p>{{ comment.message }}</p>
+                </li>
+                {%if request.user.is_authenticated %}
+                <li>
+                    <a href= "{% url 'edit_comment' id=comment.pk %}"class="actionlinks">edit</a>
+                </li> 
+                <li>
+                    <a href= "{% url 'delete_comment' id=comment.pk %}"class="actionlinks">delete</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+            <form action="{% url 'create_comment' project_id=project.id %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="post"/>
+            </form>  
+        </section>
 
+        {% if request.user.is_authenticated and request.user != project.creator %}
+        <section class = subsection>
+            <h3> <a href="{% url 'new_donate' project_id=project.pk %}" class="action_links">Donate</a></h3>
+        </section> 
+        {% endif %}
+    </section>
 {% endblock %}

@@ -1,44 +1,75 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>CrowdFunder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'css/crowdfunder.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Lexend+Deca&display=swap" rel="stylesheet">
+    <title>
+        CrowdFunder{% block title %}{% endblock %}
+    </title>
 </head>
 <body>
     <header>
-        <h1>
-            <a href='{% url "home_page" %}'> Crowdfunder logo </a>
-        </h1>
-        <nav>
-            <ul>
+        <nav class="dropdown">
+            <h2>
+                <img src="{% static 'css/images/menu-button.png' %}" alt="menu button of 3 horizontal lines" title="menu" class="menu-icon"/>
+            </h2>
+            <ul class="navbar-content">
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                    <li><a href="{% url 'new_project' %}">Create Project</a></li>
-                    <li><a href="{% url 'user_profile' request.user.id %}">User Profile</a></li>
+                    <li>
+                        <a href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'new_project' %}">Create Project</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'user_profile' request.user.id %}">User Profile</a>
+                    </li>
                 {% else %}
-                    <li><a href="{% url 'signup' %}">Signup </a></li>
-                    <li><a href="{% url 'login' %}">Login </a></li>
+                    <li>
+                        <a href="{% url 'signup' %}">Signup </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'login' %}">Login </a>
+                    </li>
                 {% endif %}
-                
-                <li><a href="{% url 'all_users' %}">All Users</a></li>
-            </ul>
-            <section class="search_bar">
-                <form action="{% url 'search_project'%}" method="get">
+                <li>
+                    <a href="{% url 'all_users' %}">All Users</a>
+                </li>
+                <li class="search_bar">
+                <form action="{% url 'search_project'%}" method="get" class='login_form'>
                     <label for="search-project">
                         <span>Search:</span>
                         <input type="search" id="search-project" name="query" value="{{ query }}"/>
                     </label>
-                    <input type="submit" value="Search"/>
+                    <button class="ui icon button">
+                        <i class="search icon"></i>
+                    </button>
                 </form>
-            </section>
+                </li>
+            </ul>
         </nav>
+        <h1>
+            <a href='{% url "home_page" %}' class="logo">
+            <img src="{% static 'css/images/crowd_blk.png' %}" alt="CrowdFunder logo as a crowd of people" title="crowdfunder"/>    
+            <h2 class='header-title'>Crowdfunder</h2>
+            </a>
+        </h1>
     </header>
-    <main>{% block content%} {% endblock %}</main>
     
+    <main>
+        {% block content%}
+        {% endblock %}
+    </main>
+
     <footer>
         created dopely by SASA 
+        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"                 title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"                 title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
     </footer>
+    <div class="background"></div>
 </body>
 </html>
