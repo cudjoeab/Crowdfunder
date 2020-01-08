@@ -4,38 +4,38 @@
     font-family: 'Lexend Deca', sans-serif;
 }
 
-/* links  */
 a {
-    color: black; 
+    color: #025928; 
     text-decoration: none; 
 }
 
-a:hover {
-    color: white;   
-}
-
 a:visited{
-    color: rgba(0, 0, 1, 1);
-}
-/* base.html */
-body{
-    margin: 0 auto; 
-    background-color: rgba(144, 170, 134, 0.8);
-    background-image: url("images/money_falling.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;  
+    color: #248e38;
 }
 
-.main-block {
-    text-align: center;
+a:hover {
+    color: #d96704; 
 }
 
-.logo {
-    text-decoration: none;
-    display: grid;
-    grid-template-columns: 2em 90%; 
+a:active {
+    color: #85bf4b;
+}
+
+h2 {
+    margin: 0; 
     padding: 10px; 
+    max-width: 100%;
+    position: relative;
+    left: 0; 
+    padding-left: 0px; 
+}
+
+form {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 60%;
+    background-color: rgba(220, 204, 163, 0.8);
+    text-align: center;
 }
 
 img {
@@ -44,30 +44,39 @@ img {
     height: 50px; 
     padding: 10px;
     padding: 0px; 
-
 }
-h2 {
-    margin: 0; 
-    padding: 10px; 
-    max-width: 100%;
-    position: relative;
-    left: 0; 
-    padding-left: 0px; 
- }
+
+
+/* base.html */
+body {
+    margin: 0 auto; 
+    /* background-image: url("images/money_falling.png"); */
+    background-color: rgba(144, 170, 134, 0.8);
+    background-image: url('../images/https:_blogs-images.forbes.com_ofx_files_2018_09_OFX3-iStock-492595743-1200x800.jpg');
+    background-size: cover;
+    /* background-repeat: repeat; */
+}
 
 header {
-    background-color:  rgba(130, 76, 113, 1); 
-    color: rgba(74, 37, 69, 1); 
+    /* background-color:  #804b6f;  */
+    color: #4a2545; 
     padding: 5px;
     display: grid;
-    grid-template-columns: 1fr 90%; 
+    grid-template-columns: 1fr 90%;
+    background: #663c58; /* Old browsers */
+    background: -moz-linear-gradient(top, #663c58 0%, #804b6f 50%, #724362 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #663c58 0%,#804b6f 50%,#724362 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #663c58 0%,#804b6f 50%,#724362 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#663c58', endColorstr='#724362',GradientType=0 ); /* IE6-9 */
 }
 
 /* having a floating menu on hover */
 .dropdown {
+    padding: 15px 0 0 15px;
     position: relative;
     display: inline-block; 
-    height: 50px;  
+    /* height: 50px;   */
+    height: 115px;
 }
 
 .navbar-content {
@@ -87,34 +96,66 @@ header {
     display: block; 
 }
 
+.login_form { /* To ensure the login_form doesn't shrink. */
+    max-width: 100%;
+    text-align: left;
+}
+
+.logo {
+    text-decoration: none;
+    display: grid;
+    grid-template-columns: 2em 90%; 
+    padding: 10px; 
+}
+
+.header-title {
+    color: #000;
+}
+
+main {
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+main section {
+    margin: 30px auto;
+    padding: 20px 20px;
+    max-width: 80%;
+    background-color: rgba(255,255,255,.5);
+}
+
 .projects_gallery {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1em; 
-    margin: 0 20px; 
-    
+    /* margin: 0 20px;  */
 }
+
 .project_preview {
     font-size: 20px; 
     list-style-type: none;
     padding: 20px; 
-    text-align: center; 
-    background: rgba(144, 170, 134, 0.8);
+    /* text-align: center;  */
+    /* background: rgba(144, 170, 134, 0.8); */
+    background: #66e281;
     line-height: 2.0; 
 }
-.project_page {
+
+.subsection {
     background-color: rgba(144, 170, 134, 0.8);
-    max-width: 80%;
-    margin: 30px auto; 
 }
 
-.project_details {
-    background-color: rgba(144, 170, 134, 0.8);
-    padding: 20px; 
-    margin-bottom: 0; 
-    
-} 
-.action_links {
+.project_page {
+    /* background-color: rgba(144, 170, 134, 0.8); */
+}
+
+/* .project_details {
+    background-color: rgba(144, 170, 134, 0.8); */
+    /* padding: 20px;  */
+    /* margin-bottom: 0;  */
+/* } */
+
+/* .action_links {
     background-color: rgba(144, 170, 134, 0.8);    
 }
 
@@ -124,22 +165,55 @@ header {
 
 .comments {
     background-color: rgba(144, 170, 134, 0.8);
+} */
+
+form table { /* To center the table in the form. */
+    margin: 0 auto;
+}
+
+table th { /* To align labels to the right in the form. */
+    text-align: right;
+}
+
+table td { /* To align input boxes to the left in the form. */
+    text-align: left;
 }
 
 footer {
-    background-color: rgba(130, 76, 113, 1); 
+    /* background-color: rgba(130, 76, 113, 1);  */
     color: rgba(74, 37, 69, 1);
     padding: 20px;
     text-align: right; 
-    position: absolute;  
+    position: fixed;  
     left: 0;
     bottom: 0; 
-    width: 100%; 
+    width: 100%;
+    background: #663c58; /* Old browsers */
+    background: -moz-linear-gradient(top, #663c58 0%, #804b6f 50%, #724362 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #663c58 0%,#804b6f 50%,#724362 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #663c58 0%,#804b6f 50%,#724362 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#663c58', endColorstr='#724362',GradientType=0 ); /* IE6-9 */
 }
 
-.form {
-    background-color: rgba(220, 204, 163, 0.8);
-    margin: 20px auto;
-    max-width: 60%; 
+.background {
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    /* background-image: url('../images/https:_blogs-images.forbes.com_ofx_files_2018_09_OFX3-iStock-492595743-1200x800.jpg'); */
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
 
+    /* background: blue url('../images/https:_blogs-images.forbes.com_ofx_files_2018_09_OFX3-iStock-492595743-1200x800.jpg') cover;  */
+    z-index: -99;
 }
+
+/* .background:before {
+    width:100%;
+    height:100%;
+    content:" ";
+    display: block;
+    z-index:0;
+    background-color: rgba(144, 170, 134, 0.8);
+} */

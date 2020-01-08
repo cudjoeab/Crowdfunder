@@ -1,10 +1,18 @@
 {% extends "base.html" %}
-{% block content %}
 
-<form action = "{% url 'create_reward' project_id=project_id %}" method = "post" class="form">
-    {% csrf_token %}
-    <h2>Add New Reward</h2>
-    {{ form.as_p }}
-    <input type = "submit" value = "Create Reward">
-</form>
+{% block title %}
+    - Add New Reward
+{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>Add New Reward</h2>
+        <form action = "{% url 'create_reward' project_id=project_id %}" method="post" class="form">          
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type = "submit" value = "Create Reward">
+        </form>
+    </section>
 {% endblock content %}

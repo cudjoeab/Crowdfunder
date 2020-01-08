@@ -1,9 +1,18 @@
 {% extends "base.html" %}
+
+{% block title %}
+    - Log In
+{% endblock %}
+
 {% block content %}
-    <h2>Log In</h2>
-    <form action="{% url 'login' %}" method='POST'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Login">
-    </form>
+    <section>
+        <h2>Log In</h2>
+        <form action="{% url 'login' %}" method='POST'>
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Login">
+        </form>
+    </section>
 {% endblock %}

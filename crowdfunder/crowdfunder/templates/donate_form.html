@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    - Make a Donation
+{% endblock %}
+
 {% block content %}
-
-
-<h1>{{ project.title }} </h1>
-<h2> Make a donation </h2>
-<form action="{% url 'create_donate' project_id %}" method= 'POST'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Make a Donation">
-    <input type="reset" name="reset" value="Reset">
-</form>
-
-
+    <section>
+        <h2>{{ project.title }} </h2>
+        <h3>Make a Donation</h3>
+        <form action="{% url 'create_donate' project_id %}" method= 'POST'>
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Make a Donation">
+            <input type="reset" name="reset" value="Reset">
+        </form>
+    </section>
 {% endblock %}

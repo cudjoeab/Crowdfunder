@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
+
+{% block title %}
+    - Search Results
+{% endblock %}
+
 {% block content %}
-
-<section class="search_results">
-    <h2>Search Results: {{ projects.count }}</h2>
-    {% for project in projects %}
-    <a href='{% url "project_details" id=project.pk %}'>
-        <ul>
-            <li>{{ project.title }}</li>
-            <li>{{ project.creator }}</li>
-        </ul>
-    </a>
-    {% endfor %}
-</section>
-
-
+    <section class="search_results">
+        <h2>Search Results: {{ projects.count }}</h2>
+        {% for project in projects %}
+        <a href='{% url "project_details" id=project.pk %}'>
+            <ul>
+                <li>{{ project.title }}</li>
+                <li>{{ project.creator }}</li>
+            </ul>
+        </a>
+        {% endfor %}
+    </section>
 {% endblock %}

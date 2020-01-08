@@ -1,40 +1,46 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    - {{ profile.first_name }} {{ profile.last_name }} Profile
+{% endblock %}
+
 {% block content %}
+    <section>
+        <h2>{{ profile.first_name }} {{ profile.last_name }} Profile</h2>
+        <p>{{ profile.description }}</p>
 
-<section>
-    <h2>{{ profile.first_name }} profile</h2>
+        {% if request.user.is_authenticated and request.user == user %}
+            <h3>
+                <a href="{% url 'edit_profile' user_id=user.pk %}">Edit Profile</a>
+            </h3>
+            <h3>
+                <a href="{% url 'delete_profile' user_id=user.pk %}">Delete Profile</a>
+            </h3>
+        {% endif %}    
 
-    <p>{{ profile.description }}</p>
-
-    {% if request.user.is_authenticated and request.user == user %}
-        <h3><a href="{% url 'edit_profile' user_id=user.pk %}">Edit Profile</a></h3>
-        <h3><a href="{% url 'delete_profile' user_id=user.pk %}">Delete Profile</a></h3>
-    {% endif %}    
-
-    <h3>Projects owned:</h3>
-    <ul>
-        {% for project in projects_owned %}
-            <li><a href='{% url "project_details" project.pk %}'>{{ project.title }}</a><br/>
-                {{ project.description }}</li>
-        {% endfor %}
-    </ul>
-
-    <h3>Projects supported:</h3>
-    <ul>
-        {% for project in projects_supported %}
-            <li>
-                <a href='{% url "project_details" project.pk %}'>{{ project.project }}</a><br/>
-                {{ project.project.description }}<br/>
-                Donated: {{ project.price_in_cents }} pennies<br/>
-                Reward: {{ project.reward }}
-                <br/><br/>
-            </li>
-        {% endfor %}
-    </ul>
-    <p>Add Reward.name or project.project.name?</p>
-
-    <h3>Total ammount pledged:</h3>
-    <p>{{user_total_donation}}</p>
-</section>
+        <h3>Projects owned:</h3>
+        <ul>
+            {% for project in projects_owned %}
+                <li>
+                    <a href='{% url "project_details" project.pk %}'>{{ project.title }}</a><br/>
+                    {{ project.description }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Projects supported:</h3>
+        <ul>
+            {% for project in projects_supported %}
+                <li>
+                    <a href='{% url "project_details" project.pk %}'>{{ project.project }}</a><br/>
+                    {{ project.project.description }}<br/>
+                    Donated: {{ project.price_in_cents }} pennies<br/>
+                    Reward: {{ project.reward }}
+                    <br/>
+                    <br/>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>Add Reward.name or project.project.name?</p>
+        <h3>Total amount pledged:</h3>
+        <p>{{user_total_donation}}</p>
+    </section>
 {% endblock %}

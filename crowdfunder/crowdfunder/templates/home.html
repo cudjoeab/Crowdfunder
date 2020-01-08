@@ -1,16 +1,21 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
+
+{% block title %}
+    - Homepage
+{% endblock %}
 
 {% block content %}
-
-<section class="projects_gallery">
-{% for project in projects %}
+    <section class="projects_gallery">
+    <!-- <h2>Crowdfunder Projects:</h2> -->
+    {% for project in projects %}
         <ul class = "project_preview">
-            <li><a href='{% url "project_details" project_id=project.pk %}'>{{ project.title }}</a></li>
-            <li><a href='{% url "user_profile" project.creator.pk %}'>{{ project.creator }}</a></li>
+            <li>
+                <a href='{% url "project_details" project_id=project.pk %}'>{{ project.title }}</a>
+            </li>
+            <li>
+                <a href='{% url "user_profile" project.creator.pk %}'>{{ project.creator }}</a>
+            </li>
         </ul>
-{%  endfor %}    
-</section>
-
-
-
-{% endblock%}
+    {%  endfor %}    
+    </section>
+{% endblock %}

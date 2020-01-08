@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}
+    - All Users with Existing Projects
+{% endblock %}
 
-<section>
-    <h2>All users with existing projects:</h2>
-    <ul>
-        {% for creator_id, creator_name in creator_list.items %}
-            <li><a href="{% url 'user_profile' creator_id %}">{{ creator_name }}</a></li>
-        {% endfor %}
-    </ul>
-</section>
+{% block content %}
+    <section>
+        <h2>All users with existing projects:</h2>
+        <ul>
+            {% for creator_id, creator_name in creator_list.items %}
+                <li>
+                    <a href="{% url 'user_profile' creator_id %}">{{ creator_name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock %}
