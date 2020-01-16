@@ -9,7 +9,6 @@
 
     {% if request.user.is_authenticated and request.user == user %}
         <h3><a href="{% url 'edit_profile' user_id=user.pk %}">Edit Profile</a></h3>
-        <h3><a href="{% url 'delete_profile' user_id=user.pk %}">Delete Profile</a></h3>
     {% endif %}    
 
     <h3>Projects owned:</h3>
