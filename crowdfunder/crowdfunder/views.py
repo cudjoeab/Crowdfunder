@@ -317,6 +317,8 @@ def user_profile(request, user_id):
 
 @login_required
 def new_profile(request, user_id):
+    new_profile = Profile.objects.create(user = request.user)
+    # new_profile.user = request.user_id
     form = ProfileForm()
     context = {"form": form}
     return render(request, "new_profile_form.html", context)

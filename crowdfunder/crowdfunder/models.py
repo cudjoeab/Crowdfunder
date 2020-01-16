@@ -9,10 +9,10 @@ from django.core.validators import (
 
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile_user')
-    first_name = models.CharField(max_length=255)
-    last_name =  models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    description = models.TextField(validators=[MinLengthValidator(10), MaxLengthValidator(500)])
+    first_name = models.CharField(max_length=255, default="First Name")
+    last_name =  models.CharField(max_length=255, default="Last Name")
+    email = models.CharField(max_length=255, default="email")
+    description = models.TextField(validators=[MinLengthValidator(1), MaxLengthValidator(500)])
     total_donations = models.FloatField(null=True, blank=True)
 
     def __str__(self):
